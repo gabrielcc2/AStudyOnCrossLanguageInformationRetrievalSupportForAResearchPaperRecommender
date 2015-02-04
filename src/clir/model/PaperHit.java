@@ -15,23 +15,15 @@ public class PaperHit {
 
 	Integer rank;
 	String title;
-	String authors;
-	String summary;
 	String url;
-	
-	Integer year;
-	
+		
 	Float relevanceScore;
 	Integer numOfResults;
 	
-	public PaperHit(Integer rank, String title, String authors,
-	String summary, String url, Integer year,	Float relevanceScore, Integer numOfResults){
+	public PaperHit(Integer rank, String title, String url, Float relevanceScore, Integer numOfResults){
 			this.rank=rank;
 			this.title=title;
-			this.authors=authors;
-			this.summary=summary;
 			this.url=url;
-			this.year=year;
 			this.relevanceScore=relevanceScore;
 			this.numOfResults=numOfResults;
 	}
@@ -52,22 +44,6 @@ public class PaperHit {
 	}
 
 	
-	public String getAuthors() {
-		return authors;
-	}
-	
-	public void setAuthors(String authors) {
-		this.authors = authors;
-	}
-	
-	public String getSummary() {
-		return summary;
-	}
-	
-	public void setSummary(String summary) {
-		this.summary = summary;
-	}
-
 	public String getUrl() {
 		return url;
 	}
@@ -76,13 +52,6 @@ public class PaperHit {
 		this.url = url;
 	}
 
-	public Integer getYear() {
-		return year;
-	}
-
-	public void setYear(Integer year) {
-		this.year = year;
-	}
 	public float getRelevanceScore() {
 		return relevanceScore;
 	}

@@ -31,22 +31,23 @@ public class ApiHandler {
 		if (useGUI){
 		}
 		else{
-			
-			/**Defining the configuration required for recommending...*/
-			RecommendationsHandler.getInstance().resetQueryFolder(); //Use default query folder
-			
-			RecommendationsHandler.getInstance().resetQueryLanguages(); //Specifying the languages to be recommended
-			RecommendationsHandler.getInstance().addQueryLanguage("EN");
-			
-			RecommendationsHandler.getInstance().setUsesLSI(false); //Use LSI or not...
-
 			/**Here we define the index. 
 			 * On the first use we must define if we want to the default repository, by calling the resetRepository.
 			 * Furthermore this takes as an input a boolean, saying if there is an index there or not...
 			 * If not using the default repository, we can call setRepository passing as input
 			 * the address of the new repository, and if there is an index there or not...*/
-			LanguageHandler.getInstance("EN").resetRepository(false);
+
+//			LanguageHandler.getInstance("EN").resetRepository(false);
+			LanguageHandler.getInstance("ES").resetRepository(false);
 			
+			/**Defining the configuration required for recommending...*/
+			RecommendationsHandler.getInstance().resetQueryFolders(); //Use default query folders
+			RecommendationsHandler.getInstance().resetQueryLanguages(); //Specifying the languages to be recommended
+	//		RecommendationsHandler.getInstance().addQueryLanguage("EN");
+			RecommendationsHandler.getInstance().addQueryLanguage("ES");
+			RecommendationsHandler.getInstance().setUsesLSI(false); //Use LSI or not...
+
+						
 			/**Ask for the recommendations...*/
 			List<PaperHit> recommendations = new ArrayList<PaperHit>();
 			recommendations=RecommendationsHandler.getInstance().getRecommendations();
@@ -59,14 +60,11 @@ public class ApiHandler {
 				System.out.println("Number of hits: "+recommendations.get(0).getNumOfResults());
 				for (int i=0; i<recommendations.size(); i++){
 					System.out.println("***************************************************");
-					String paper="Rank: "+recommendations.get(i).getRank().toString();
-					paper+=" Title: "+recommendations.get(i).getTitle()+
-					" Year: "+recommendations.get(i).getYear().toString()+
-					" Authors: "+recommendations.get(i).getAuthors()+
+					String paperHit="Rank: "+recommendations.get(i).getRank().toString();
+					paperHit+=" Title: "+recommendations.get(i).getTitle()+
 					" Url: "+recommendations.get(i).getUrl()+
-					" Relevance Score: "+recommendations.get(i).getRelevanceScore()+
-					" Summary: "+recommendations.get(i).getSummary();
-					System.out.println(paper);
+					" Relevance Score: "+recommendations.get(i).getRelevanceScore();
+					System.out.println(paperHit);
 				}
 				System.out.println("***************************************************");
 			}
