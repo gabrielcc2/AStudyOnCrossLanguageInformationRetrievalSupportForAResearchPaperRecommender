@@ -1,9 +1,10 @@
-package clir.control;
+package clir.control.query;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import clir.control.utils.TranslationHandler;
 import clir.model.PaperHit;
 import clir.model.QueryTerms;
 import clir.model.ResultsList;

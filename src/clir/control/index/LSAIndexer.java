@@ -1,4 +1,5 @@
-package clir.control;
+package clir.control.index;
+
 
 
 public class LSAIndexer extends Indexer {

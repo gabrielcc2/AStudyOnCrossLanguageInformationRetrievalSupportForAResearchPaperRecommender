@@ -1,4 +1,5 @@
-package clir.control;
+package clir.control.query;
+
 
 public class LSAQueryHandler extends QueryHandler {
 	/**Singleton instance of type LSAQueryHandler */

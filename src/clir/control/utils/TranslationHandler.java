@@ -1,4 +1,4 @@
-package clir.control;
+package clir.control.utils;
 
 import apertium.Translator;
 

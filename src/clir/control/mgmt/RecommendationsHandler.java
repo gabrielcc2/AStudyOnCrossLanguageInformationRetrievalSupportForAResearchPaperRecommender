@@ -1,8 +1,11 @@
-package clir.control;
+package clir.control.mgmt;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import clir.control.query.CrossLanguageQueryHandler;
+import clir.control.query.PerLanguageQueryHandler;
+import clir.control.querytermgen.QueryTermsGenerator;
 import clir.model.PaperHit;
 import clir.model.QueryTerms;
 
@@ -36,11 +39,11 @@ public class RecommendationsHandler {
 	      return instance;
 	}
 	
-	void setLanguageQueryFolder (String folder, String lang){
+	public void setLanguageQueryFolder (String folder, String lang){
 		queryTermsGenerator.setLanguageFolder(folder, lang);
 	}
 	
-	List<PaperHit> getRecommendations(List<String> queryLanguages, int numExpectedResults, Boolean preProcessingOption, 
+	public List<PaperHit> getRecommendations(List<String> queryLanguages, int numExpectedResults, Boolean preProcessingOption, 
 			String translationOption, Boolean postProcessingOption, Boolean combiningOption){
 
 		List<PaperHit> results = new ArrayList<PaperHit>();
@@ -55,7 +58,7 @@ public class RecommendationsHandler {
 		return results;
 	}
 	
-	List<PaperHit> refineQuery(QueryTerms postProcessedQueries, int numExpectedResults, Boolean combiningOption){
+	public List<PaperHit> refineQuery(QueryTerms postProcessedQueries, int numExpectedResults, Boolean combiningOption){
 		return CrossLanguageQueryHandler.getInstance().refineQuery(postProcessedQueries, numExpectedResults, combiningOption);
 	}
 }

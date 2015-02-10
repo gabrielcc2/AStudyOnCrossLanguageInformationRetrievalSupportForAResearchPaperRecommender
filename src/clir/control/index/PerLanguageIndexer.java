@@ -1,4 +1,4 @@
-package clir.control;
+package clir.control.index;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,6 +18,8 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
 import org.docear.pdf.PdfDataExtractor;
+
+import clir.control.mgmt.LanguagesManager;
 
 public class PerLanguageIndexer extends Indexer {
 

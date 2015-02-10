@@ -1,4 +1,4 @@
-package clir.control;
+package clir.control.query;
 
 /** Abstract super-class where common attributes and operations of an Per-language,
  * Cross-Language and Latent Semantic Query Handlers, can be placed.

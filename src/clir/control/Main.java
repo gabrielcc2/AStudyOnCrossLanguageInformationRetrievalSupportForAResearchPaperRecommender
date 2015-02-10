@@ -2,6 +2,8 @@ package clir.control;
 import java.util.ArrayList;
 import java.util.List;
 
+import clir.control.mgmt.LanguagesManager;
+import clir.control.mgmt.RecommendationsHandler;
 import clir.model.PaperHit;
 
 /**

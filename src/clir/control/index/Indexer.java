@@ -1,4 +1,4 @@
-package clir.control;
+package clir.control.index;
 
 /** Abstract super-class where common attributes and operations of an LSA Indexer and
  *  a Per-Language Indexer can be placed.

@@ -1,4 +1,6 @@
-package clir.control;
+package clir.control.mgmt;
+
+import clir.control.index.PerLanguageIndexer;
 
 public class SpecificLanguageManager {
 

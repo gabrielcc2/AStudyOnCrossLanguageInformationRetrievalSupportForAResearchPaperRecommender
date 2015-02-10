@@ -1,4 +1,4 @@
-package clir.control;
+package clir.control.querytermgen;
 
 import java.io.File;
 import java.io.IOException;
@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.docear.pdf.PdfDataExtractor;
 
+import clir.control.mgmt.LanguagesManager;
 import clir.model.LanguageFolder;
 import clir.model.QueryTerms;
 

@@ -1,4 +1,4 @@
-package clir.control;
+package clir.control.query;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,6 +21,7 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
 
+import clir.control.mgmt.LanguagesManager;
 import clir.model.PaperHit;
 
 public class PerLanguageQueryHandler extends QueryHandler{
@@ -38,7 +39,7 @@ public class PerLanguageQueryHandler extends QueryHandler{
 	}
 
 	@SuppressWarnings("deprecation")
-	List<PaperHit> runQuery(String query){
+	public List<PaperHit> runQuery(String query){
 		List<PaperHit> results= new ArrayList<PaperHit>();
 		if (LanguagesManager.getInstance().isSupported(lang) && query.length()>2){
 			Directory indexFolder=null;
