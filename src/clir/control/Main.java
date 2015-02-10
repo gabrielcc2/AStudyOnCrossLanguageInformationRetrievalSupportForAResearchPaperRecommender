@@ -18,7 +18,7 @@ import clir.model.PaperHit;
  * @author Gabriel
  */
 
-public class ApiHandler {
+public class Main {
 	
 	/**
 	 * Main function. No arguments used as input.
@@ -28,29 +28,25 @@ public class ApiHandler {
 		
 		boolean useGUI=false;
 
+		
 		if (useGUI){
 		}
 		else{
-			/**Here we define the index. 
-			 * On the first use we must define if we want to the default repository, by calling the resetRepository.
-			 * Furthermore this takes as an input a boolean, saying if there is an index there or not...
-			 * If not using the default repository, we can call setRepository passing as input
-			 * the address of the new repository, and if there is an index there or not...*/
-
-//			LanguageHandler.getInstance("EN").resetRepository(false);
-			LanguageHandler.getInstance("ES").resetRepository(false);
+			LanguagesManager.getInstance().addLanguage("EN");
+			LanguagesManager.getInstance().addLanguage("ES");
+			//LanguagesManager.getInstance().addLanguage("DE");
+			LanguagesManager.getInstance().getSpecificManager("EN").createIndex();
+			LanguagesManager.getInstance().getSpecificManager("ES").createIndex();
+			//LanguagesManager.getInstance().getSpecificManager("DE").createIndex();
 			
 			/**Defining the configuration required for recommending...*/
-			RecommendationsHandler.getInstance().resetQueryFolders(); //Use default query folders
-			RecommendationsHandler.getInstance().resetQueryLanguages(); //Specifying the languages to be recommended
-	//		RecommendationsHandler.getInstance().addQueryLanguage("EN");
-			RecommendationsHandler.getInstance().addQueryLanguage("ES");
-			RecommendationsHandler.getInstance().setUsesLSI(false); //Use LSI or not...
 
 						
 			/**Ask for the recommendations...*/
 			List<PaperHit> recommendations = new ArrayList<PaperHit>();
-			recommendations=RecommendationsHandler.getInstance().getRecommendations();
+			recommendations.addAll(RecommendationsHandler.getInstance().getRecommendations(
+					LanguagesManager.getInstance().getLanguagesSupported(), 
+					10, false, "google", false, false));
 
 			/**Printing the recommendations*/
 			if (recommendations.isEmpty()){

@@ -1,5 +1,6 @@
 package clir.model;
 
+
 /**
  * 
  * A POJO to represent a paper hit (i.e. a paper returned as a recommendation given a query).
@@ -11,21 +12,23 @@ package clir.model;
  * 
  */
 
-public class PaperHit {
+public class PaperHit implements Comparable<PaperHit> {
 
 	Integer rank;
 	String title;
 	String url;
+	String lang;
 		
 	Float relevanceScore;
 	Integer numOfResults;
 	
-	public PaperHit(Integer rank, String title, String url, Float relevanceScore, Integer numOfResults){
+	public PaperHit(Integer rank, String title, String url, String lang, Float relevanceScore, Integer numOfResults){
 			this.rank=rank;
 			this.title=title;
 			this.url=url;
 			this.relevanceScore=relevanceScore;
 			this.numOfResults=numOfResults;
+			this.lang=lang;
 	}
 	public Integer getRank() {
 		return rank;
@@ -52,7 +55,15 @@ public class PaperHit {
 		this.url = url;
 	}
 
-	public float getRelevanceScore() {
+	public String getLang() {
+		return lang;
+	}
+
+	public void setLang(String lang) {
+		this.lang = lang;
+	}
+	
+	public Float getRelevanceScore() {
 		return relevanceScore;
 	}
 
@@ -66,6 +77,11 @@ public class PaperHit {
 
 	public void setNumOfResults(Integer numOfResults) {
 		this.numOfResults = numOfResults;
+	}
+
+	@Override
+	public int compareTo(PaperHit arg0) {
+		return (arg0).getRelevanceScore().compareTo(this.getRelevanceScore());
 	}
 
 
