@@ -1,13 +1,12 @@
 package clir.control.mgmt;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import clir.control.query.CrossLanguageQueryHandler;
 import clir.control.query.PerLanguageQueryHandler;
 import clir.control.querytermgen.QueryTermsGenerator;
-import clir.model.PaperHit;
 import clir.model.QueryTerms;
+import clir.model.ResultsList;
 
 /**
  * Guarantees that all languages are in upper case.
@@ -43,22 +42,23 @@ public class RecommendationsHandler {
 		queryTermsGenerator.setLanguageFolder(folder, lang);
 	}
 	
-	public List<PaperHit> getRecommendations(List<String> queryLanguages, int numExpectedResults, Boolean preProcessingOption, 
+	public ResultsList getRecommendations(List<String> queryLanguages, int numExpectedResults, Boolean preProcessingOption, 
 			String translationOption, Boolean postProcessingOption, Boolean combiningOption){
 
-		List<PaperHit> results = new ArrayList<PaperHit>();
+		ResultsList results = new ResultsList();
 		QueryTerms terms = queryTermsGenerator.generateQueryTerms(queryLanguages);
+		results.setQueryTerms(terms);
 		if (queryLanguages.size()==1){
 			String chosenLanguage= queryLanguages.get(0);
 			PerLanguageQueryHandler plqh = new PerLanguageQueryHandler(chosenLanguage, numExpectedResults);
-			results.addAll(plqh.runQuery(terms.getTermsOfLang(chosenLanguage)));
+			results.setPaperHits((plqh.runQuery(terms.getTermsOfLang(chosenLanguage))).getPaperHits());
 			return results;
 		}
-		results.addAll(CrossLanguageQueryHandler.getInstance().runQuery(terms, numExpectedResults, preProcessingOption,translationOption, postProcessingOption, combiningOption));
+		results.assign(CrossLanguageQueryHandler.getInstance().runQuery(terms, numExpectedResults, preProcessingOption,translationOption, postProcessingOption, combiningOption));
 		return results;
 	}
 	
-	public List<PaperHit> refineQuery(QueryTerms postProcessedQueries, int numExpectedResults, Boolean combiningOption){
+	public ResultsList refineQuery(QueryTerms postProcessedQueries, int numExpectedResults, Boolean combiningOption){
 		return CrossLanguageQueryHandler.getInstance().refineQuery(postProcessedQueries, numExpectedResults, combiningOption);
 	}
 }

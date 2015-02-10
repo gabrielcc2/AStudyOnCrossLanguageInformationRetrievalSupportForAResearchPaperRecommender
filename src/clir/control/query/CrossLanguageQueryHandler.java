@@ -96,9 +96,9 @@ public class CrossLanguageQueryHandler extends QueryHandler{
 		List<PaperHit> combinedResults= new ArrayList<PaperHit>();
 		int numberOfHits= 0;
 		for (int i=0; i<size; i++){
-			if (!partialHits[i].hits.isEmpty()){
-				combinedResults.addAll(partialHits[i].hits);
-				numberOfHits+=partialHits[i].hits.get(0).getNumOfResults();
+			if (!partialHits[i].isEmptyPaperHits()){
+				combinedResults.addAll(partialHits[i].getPaperHits());
+				numberOfHits+=partialHits[i].getPaperHits().get(0).getNumOfResults();
 			}
 		}
 		for (int i=0; i<combinedResults.size(); i++){
@@ -113,7 +113,9 @@ public class CrossLanguageQueryHandler extends QueryHandler{
 		}
 		return combinedResults.subList(0, numberOfResults);
 	}
-	public List<PaperHit> runQuery(QueryTerms query, int numExpectedResults, Boolean preProcessingOption, String translationOption, Boolean postProcessingOption, Boolean combiningOption){
+	public ResultsList runQuery(QueryTerms query, int numExpectedResults, Boolean preProcessingOption, String translationOption, Boolean postProcessingOption, Boolean combiningOption){
+		ResultsList resultingList= new ResultsList();
+		QueryTerms postProcessedTerms = new QueryTerms();
 		List<PaperHit> results= new ArrayList<PaperHit>();
 		
 		/**This processing is completed in 5 steps:*/
@@ -126,6 +128,8 @@ public class CrossLanguageQueryHandler extends QueryHandler{
 		
 		/**Third step: Post-processing... */
 		QueryTerms postProcessedQueries=postProcess(translatedQueries, postProcessingOption);
+		postProcessedTerms.initialize(postProcessedQueries.getTerms(), postProcessedQueries.getLangs());
+		resultingList.setQueryTerms(postProcessedTerms);
 		
 		//Query refinement aims to re-run from this stage...
 		/**Forth step: Searching in every index*/
@@ -137,12 +141,12 @@ public class CrossLanguageQueryHandler extends QueryHandler{
 			String q= postProcessedQueries.getTerms().get(i);
 			partialHits[i]= new ResultsList();
 			if (q.length()>1){
-					partialHits[i].hits.addAll(agent.runQuery(q));
+					partialHits[i].setPaperHits((agent.runQuery(q)).getPaperHits());
 					if (DEBUG){
 						System.out.println("Hits for: "+currentLanguage);
-						if(partialHits[i].hits.size()>=1){
-							for (int k=0; k<partialHits[i].hits.size(); k++){
-								System.out.println(k+": "+partialHits[i].hits.get(k).getUrl());
+						if(partialHits[i].getPaperHits().size()>=1){
+							for (int k=0; k<partialHits[i].getPaperHits().size(); k++){
+								System.out.println(k+": "+partialHits[i].getPaperHits().get(k).getUrl());
 							}
 						}
 					}
@@ -151,21 +155,39 @@ public class CrossLanguageQueryHandler extends QueryHandler{
 
 		/**Fifth step: Combining the results*/
 		results.addAll(combineResults(partialHits, numLangs, combiningOption));
-		return results;
+		resultingList.setPaperHits(results);
+		return resultingList;
 	}
 
-	public List<PaperHit> refineQuery(QueryTerms postProcessedQueries, int numExpectedResults, boolean combiningOption){
+	public ResultsList refineQuery(QueryTerms postProcessedQueries, int numExpectedResults, boolean combiningOption){
 		List<PaperHit> results= new ArrayList<PaperHit>();
+		
+		ResultsList resultingList= new ResultsList();
+		resultingList.setQueryTerms(postProcessedQueries);
+
 		int numLangs=postProcessedQueries.getLangs().size();
 		ResultsList [] partialHits= new ResultsList[numLangs];
 		for (int i=0; i<numLangs; i++){
 			String currentLanguage=postProcessedQueries.getLangs().get(i);
 			PerLanguageQueryHandler agent= new PerLanguageQueryHandler(currentLanguage, numExpectedResults);
-			partialHits[i].hits.addAll(agent.runQuery(postProcessedQueries.getTermsOfLang(currentLanguage)));
+			String q= postProcessedQueries.getTerms().get(i);
+			partialHits[i]= new ResultsList();
+			if (q.length()>1){
+					partialHits[i].setPaperHits((agent.runQuery(q)).getPaperHits());
+					if (DEBUG){
+						System.out.println("Hits for: "+currentLanguage);
+						if(partialHits[i].getPaperHits().size()>=1){
+							for (int k=0; k<partialHits[i].getPaperHits().size(); k++){
+								System.out.println(k+": "+partialHits[i].getPaperHits().get(k).getUrl());
+							}
+						}
+					}
+			}
 		}
 
 		/**Fifth step: Combining the results*/
 		results.addAll(combineResults(partialHits, numLangs, combiningOption));
-		return results;
+		resultingList.setPaperHits(results);
+		return resultingList;
 	}
 }

@@ -1,10 +1,8 @@
 package clir.control;
-import java.util.ArrayList;
-import java.util.List;
 
 import clir.control.mgmt.LanguagesManager;
 import clir.control.mgmt.RecommendationsHandler;
-import clir.model.PaperHit;
+import clir.model.ResultsList;
 
 /**
  * 
@@ -36,32 +34,32 @@ public class Main {
 		else{
 			LanguagesManager.getInstance().addLanguage("EN");
 			LanguagesManager.getInstance().addLanguage("ES");
-			//LanguagesManager.getInstance().addLanguage("DE");
-			LanguagesManager.getInstance().getSpecificManager("EN").createIndex();
-			LanguagesManager.getInstance().getSpecificManager("ES").createIndex();
-			//LanguagesManager.getInstance().getSpecificManager("DE").createIndex();
+		//	LanguagesManager.getInstance().addLanguage("DE");
+			//LanguagesManager.getInstance().getSpecificManager("EN").createIndex();
+			//LanguagesManager.getInstance().getSpecificManager("ES").createIndex();
+		//	LanguagesManager.getInstance().getSpecificManager("DE").createIndex();
 			
 			/**Defining the configuration required for recommending...*/
 
 						
 			/**Ask for the recommendations...*/
-			List<PaperHit> recommendations = new ArrayList<PaperHit>();
-			recommendations.addAll(RecommendationsHandler.getInstance().getRecommendations(
+			ResultsList recommendations = new ResultsList();
+			recommendations.assign(RecommendationsHandler.getInstance().getRecommendations(
 					LanguagesManager.getInstance().getLanguagesSupported(), 
 					10, false, "google", false, false));
 
 			/**Printing the recommendations*/
-			if (recommendations.isEmpty()){
+			if (recommendations.isEmptyPaperHits()){
 				System.out.println("No recommendations found.");
 			}
 			else {
-				System.out.println("Number of hits: "+recommendations.get(0).getNumOfResults());
-				for (int i=0; i<recommendations.size(); i++){
+				System.out.println("Number of hits: "+recommendations.getPaperHits().get(0).getNumOfResults());
+				for (int i=0; i<recommendations.getPaperHits().size(); i++){
 					System.out.println("***************************************************");
-					String paperHit="Rank: "+recommendations.get(i).getRank().toString();
-					paperHit+=" Title: "+recommendations.get(i).getTitle()+
-					" Url: "+recommendations.get(i).getUrl()+
-					" Relevance Score: "+recommendations.get(i).getRelevanceScore();
+					String paperHit="Rank: "+recommendations.getPaperHits().get(i).getRank().toString();
+					paperHit+=" Title: "+recommendations.getPaperHits().get(i).getTitle()+
+					" Url: "+recommendations.getPaperHits().get(i).getUrl()+
+					" Relevance Score: "+recommendations.getPaperHits().get(i).getRelevanceScore();
 					System.out.println(paperHit);
 				}
 				System.out.println("***************************************************");

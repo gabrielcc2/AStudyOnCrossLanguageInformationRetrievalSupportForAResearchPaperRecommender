@@ -23,6 +23,8 @@ import org.apache.lucene.util.Version;
 
 import clir.control.mgmt.LanguagesManager;
 import clir.model.PaperHit;
+import clir.model.QueryTerms;
+import clir.model.ResultsList;
 
 public class PerLanguageQueryHandler extends QueryHandler{
 	
@@ -39,7 +41,11 @@ public class PerLanguageQueryHandler extends QueryHandler{
 	}
 
 	@SuppressWarnings("deprecation")
-	public List<PaperHit> runQuery(String query){
+	public ResultsList runQuery(String query){
+		ResultsList resultingList= new ResultsList();
+		QueryTerms inputTerms = new QueryTerms();
+		inputTerms.addQueryTerm(query, lang);
+		resultingList.setQueryTerms(inputTerms);
 		List<PaperHit> results= new ArrayList<PaperHit>();
 		if (LanguagesManager.getInstance().isSupported(lang) && query.length()>2){
 			Directory indexFolder=null;
@@ -220,7 +226,8 @@ public class PerLanguageQueryHandler extends QueryHandler{
 				}	
 			}
 		}
-		return results;//If list is empty: language not supported, or empty results.
+		resultingList.setPaperHits(results);
+		return resultingList;//If list is empty: language not supported, or empty results.
 	}
 
 }

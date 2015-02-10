@@ -77,8 +77,18 @@ public class QueryTerms {
 		}
 	}
 	
+	public void initialize (List<String> terms, List<String> langs){
+		this.reset();
+		this.terms.addAll(terms);
+		this.langs.addAll(langs);
+	}
+	
 	public void reset(){
-		this.terms.clear();
-		this.langs.clear();
+		if (!this.terms.isEmpty()){
+			this.terms.clear();
+		}
+		if (!this.langs.isEmpty()){
+			this.langs.clear();
+		}
 	}
 }
