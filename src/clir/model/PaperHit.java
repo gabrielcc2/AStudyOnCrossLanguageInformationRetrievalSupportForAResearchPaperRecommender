@@ -14,13 +14,13 @@ package clir.model;
 
 public class PaperHit implements Comparable<PaperHit> {
 
-	Integer rank;
-	String title;
-	String url;
-	String lang;
+	private Integer rank;
+	private String title;
+	private String url;
+	private String lang;
 		
-	Float relevanceScore;
-	Integer numOfResults;
+	private Float relevanceScore;
+	private Integer numOfResults;
 	
 	public PaperHit(Integer rank, String title, String url, String lang, Float relevanceScore, Integer numOfResults){
 			this.rank=rank;

@@ -19,8 +19,6 @@ import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
 import org.docear.pdf.PdfDataExtractor;
 
-import clir.control.mgmt.LanguagesManager;
-
 public class PerLanguageIndexer extends Indexer {
 
 	/**Singleton instance of type PerLanguageIndexer */
@@ -41,11 +39,8 @@ public class PerLanguageIndexer extends Indexer {
 		return indexer;
 	}
 	
-	public void createIndex(String lang){
+	public void createIndex(String lang, String repoLocation, String indexLocation){
 		
-		System.out.println("Creating index for: "+lang);
-		String repoLocation=LanguagesManager.getInstance().getSpecificManager(lang).getRepository();
-		String indexLocation=LanguagesManager.getInstance().getSpecificManager(lang).getIndexFolder();
 		File repository = new File(repoLocation);
 
 		if (repository.exists()&& repository.isDirectory()) { //It checks if it is a directory (i.e. a folder)
@@ -139,16 +134,27 @@ public class PerLanguageIndexer extends Indexer {
 						 	* A Lucene Document variable is declared.
 							*/	
 
+							result=result.replace(".", " ");
+							result=result.replace(",", " ");
+							result=result.replace(":", " ");
+							result=result.replace("(", " ");
+							result=result.replace(")", " ");
+							result=result.replace("©", " ");
+							result=result.replace("*", " ");
+							result=result.replace("[", " ");
+							result=result.replace("]", " ");
+							result=result.replace(" ", "");
+							result=result.toLowerCase();
 							
 							Document luceneDoc= new Document();
 							
 							String title="";
 							title+=result.substring(0, result.indexOf('|'));
 							
-							result=result.toLowerCase();
+							title=title.replace("|", " ");
 							result=result.substring(result.indexOf('|'), result.length());
 							String abstractString="";
-							
+
 							if (lang.equals("DE")){							
 								if (result.indexOf("zusammenfassung")>0 && result.indexOf("schlagw")>result.indexOf("zusammenfassung")){
 									abstractString+=result.substring(result.indexOf("zusammenfassung")+15, result.indexOf("schlagw"));
@@ -174,6 +180,7 @@ public class PerLanguageIndexer extends Indexer {
 								}
 								
 							}
+							abstractString=abstractString.replace("|", " ");
 							
 							TextField field1=new TextField("title", title, Field.Store.YES);
 							if (title.length()<2){

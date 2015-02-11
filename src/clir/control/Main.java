@@ -27,7 +27,7 @@ public class Main {
 	public static void main(String[] args) {
 		
 		boolean useGUI=false;
-
+		boolean useLSI=true;
 		
 		if (useGUI){
 		}
@@ -44,15 +44,30 @@ public class Main {
 						
 			/**Ask for the recommendations...*/
 			ResultsList recommendations = new ResultsList();
+	
+			if (useLSI){
+				LanguagesManager.getInstance().createLSAIndex(LanguagesManager.getInstance().getLanguagesSupported(), 3);
+				recommendations.assign(RecommendationsHandler.getInstance().getRecommendationsLSA(
+						LanguagesManager.getInstance().getLanguagesSupported(), 
+						10));
+			}
+			else{
 			recommendations.assign(RecommendationsHandler.getInstance().getRecommendations(
 					LanguagesManager.getInstance().getLanguagesSupported(), 
 					10, false, "google", false, false));
-
+			}
+			
 			/**Printing the recommendations*/
 			if (recommendations.isEmptyPaperHits()){
 				System.out.println("No recommendations found.");
 			}
 			else {
+				if (useLSI){
+					System.out.println("Results produced using LSI:");
+				}
+				else{
+					System.out.println("Results produced using Automatic Query Translation and Optimizations:");
+				}
 				System.out.println("Number of hits: "+recommendations.getPaperHits().get(0).getNumOfResults());
 				for (int i=0; i<recommendations.getPaperHits().size(); i++){
 					System.out.println("***************************************************");

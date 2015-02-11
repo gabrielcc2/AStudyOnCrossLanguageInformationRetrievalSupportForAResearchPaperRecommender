@@ -3,6 +3,7 @@ package clir.control.mgmt;
 import java.util.List;
 
 import clir.control.query.CrossLanguageQueryHandler;
+import clir.control.query.LSAQueryHandler;
 import clir.control.query.PerLanguageQueryHandler;
 import clir.control.querytermgen.QueryTermsGenerator;
 import clir.model.QueryTerms;
@@ -55,6 +56,18 @@ public class RecommendationsHandler {
 			return results;
 		}
 		results.assign(CrossLanguageQueryHandler.getInstance().runQuery(terms, numExpectedResults, preProcessingOption,translationOption, postProcessingOption, combiningOption));
+		return results;
+	}
+	
+	public ResultsList getRecommendationsLSA(List<String> queryLanguages, int numExpectedResults){
+		
+		ResultsList results = new ResultsList();
+		QueryTerms qTerms = queryTermsGenerator.generateQueryTerms(queryLanguages);
+		String terms=qTerms.getAllTermsInOneString();
+		results.setQueryTerms(qTerms);
+		
+		//Call LSA Query Handler
+		results.setPaperHits(LSAQueryHandler.getInstance().runQuery(queryLanguages, terms, numExpectedResults));
 		return results;
 	}
 	

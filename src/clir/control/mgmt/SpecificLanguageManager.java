@@ -48,6 +48,6 @@ public class SpecificLanguageManager {
 	}
 	
 	public void createIndex(){
-		PerLanguageIndexer.getInstance().createIndex(name);
+		PerLanguageIndexer.getInstance().createIndex(name, repositoryFolder, indexFolder);
 	}
 }

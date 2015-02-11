@@ -1,0 +1,6 @@
+Num docs:5
+Fab: content-based, collaborative recommendation.(Special Section: Recommender Systems)§tmp/default_EN_repository/(Paper) Balabanovic and Shoham, 1997- Fab- content-based, collaborative recommendation.pdf§EN§0.3052678040212739 0.10301278748889314 0.1922343701476782
+Speculative Execution Via Address Prediction and Data Prefetching§tmp/default_EN_repository/Speculative Execution via address prediction and data prefetching.pdf§EN§0.022893360742948603 -0.21355349407533308 0.06390791443091946
+Cross-Language Information Retrieval Using PARAFAC2§tmp/default_EN_repository/(Paper) Chew et al, 2007- Cross-Language Information Retrieval using PARAFAC2.pdf§EN§0.14614454555613385 -0.224630493389825 -1.2215724660472587
+Exploring versus Exploiting when Learning User Models for Text Recommendation§tmp/default_EN_repository/(Paper) Balabanovic, M, 1998- Exploring Versus Exploiting when Learning User Models for Text Recommendation.pdf§EN§0.6164059470673634 0.18844923336724057 0.23940866249805573
+Desarrollo de un motor de paralelizaci on especulativa con soporte para aritm etica de punteros§tmp/default_ES_repository/Desarrollo de un motor de paralelizacion especulativa con soporte para aritmetica de punteros.pdf§ES§0.8010900129332412 -0.5381490626311191 -1.2685243874763312

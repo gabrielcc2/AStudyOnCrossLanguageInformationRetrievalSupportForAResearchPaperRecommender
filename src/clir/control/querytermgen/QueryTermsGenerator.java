@@ -106,6 +106,18 @@ public class QueryTermsGenerator {
 							}
 						
 							if (title.length()>2){
+								title=title.replace(".", " ");
+								title=title.replace(",", " ");
+								title=title.replace(":", " ");
+								title=title.replace("(", " ");
+								title=title.replace(")", " ");
+								title=title.replace("©", " ");
+								title=title.replace("*", " ");
+								title=title.replace("[", " ");
+								title=title.replace("]", " ");
+								title=title.replace("|", " ");
+								title=title.replace(" ", "");
+								title=title.toLowerCase();
 								result.addQueryTerm(title.toLowerCase(), lang);
 							}
 					}
