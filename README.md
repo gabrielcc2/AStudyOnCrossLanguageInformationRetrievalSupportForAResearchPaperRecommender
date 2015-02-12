@@ -7,6 +7,23 @@ We focused on German, English and Spanish.
 
 This was a project carried out in the University of Magdeburg Oct 2014-Feb 2015
 
+Apart from surveying some available alternatives for implementing cross-language information retrieval, the aim of this project was to allow the comparison of different approaches to the cross-language support:
+
+- Latent Semantic Analysis (based on user provided cross-language training data)
+- Traditional indexing (with Lucene) and automated query translation (using one of several systems: Apertium, Google Translate API and Moses), further improved by:
+	- User mediated query refinement
+	- Translation post-processing: query expansion, by adding synonyms found in ontologies (after tagging with Stanfords PoS tagger) was tested. In the end only MultiWordNet support for English was included, but its Spanish section and GermaNet could be potentially used as well for those languages (after reaching agreements with author's institutions).
+	- Other pre-processing improvements.
+	- Other improvements at the point when results from different indexes are merged (i.e. boosting scores of hits in under-represented languages).
+
+Additional notes:
+Sense disambiguation for the query expansion was not supported (most common sense is chosen so far), but it could be added, also some recognition for searching phrases as opposed to words could also be an useful improvement over our approach.
+
+Code for PoS tagging German and Spanish is included.
+
+Code structure:
+===============
+
 Overall the software consists of the following packages:
 
 Control package: 
@@ -46,21 +63,8 @@ Data classes:
 View package: 
 GUI related classes.
 
-Apart from surveying some available alternatives for implementing cross-language information retrieval, the aim of this project was to allow the comparison of different approaches to the cross-language support:
-
-- Latent Semantic Analysis (based on user provided cross-language training data)
-- Traditional indexing (with Lucene) and automated query translation (using one of several systems: Apertium, Google Translate API and Moses), further improved by:
-	- User mediated query refinement
-	- Translation post-processing: query expansion, by adding synonyms found in ontologies (after tagging with Stanfords PoS tagger) was tested. In the end only MultiWordNet support for English was included, but its Spanish section and GermaNet could be potentially used as well for those languages (after reaching agreements with author's institutions).
-	- Other pre-processing improvements.
-	- Other improvements at the point when results from different indexes are merged (i.e. boosting scores of hits in under-represented languages).
-
-Additional notes:
-Sense disambiguation for the query expansion was not supported (most common sense is chosen so far), but it could be added, also some recognition for searching phrases as opposed to words could also be an useful improvement over our approach.
-
-Code for PoS tagging German and Spanish is included.
-
 List of some open-sourced resources used:
+===============
 
 For title and abstract extraction from pdf files:
 PDF-Inspector: https://github.com/Docear/PDF-Inspector
@@ -125,12 +129,14 @@ Lucene: http://lucene.apache.org/
 Information on specific versions, etc, can be checked in the code itself.
 
 Upcoming work:
+===============
 Check and upload code for GUI.
 Check and upload Moses model support.
 Create proper documentation (JavaDocs), including explanations on all the server configurations.
 Evaluation.
 
 Future work:
+===============
 - Facilitate the server configurations so as to make the system more portable. 
 - Adapting to an existing domain and testing infrastructure might be fruitful, specially since it would provide a clearer way for evaluating benefits and shortcomings of the methods used. 
 - Optionally other configurations could be studied. The use of an inter-lingual net for supporting translation, while coupled with good word-sense predictors, might be of interest, since it can lead to better translations and more accurate post-processing. Additional improvements with semantics and NLP, as well as extensions to the current LSA model, would be of interest as well. 
