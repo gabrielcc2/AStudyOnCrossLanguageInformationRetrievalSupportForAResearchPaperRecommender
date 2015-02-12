@@ -63,7 +63,7 @@ Data classes:
 View package: 
 GUI related classes.
 
-List of some open-sourced resources used:
+List of some open-source resources used:
 ===============
 
 For title and abstract extraction from pdf files:
@@ -126,14 +126,14 @@ Additionally we used a MySQL server running a database with the ontologies provi
 For indexing and parsing:
 Lucene: http://lucene.apache.org/
 
-Information on specific versions, etc, can be checked in the code itself.
+Information on specific versions, authors, etc., can be checked through the code itself.
 
 Upcoming work:
 ===============
 Check and upload code for GUI.
-Check and upload Moses model support.
 Create proper documentation (JavaDocs), including explanations on all the server configurations.
 Evaluation.
+Check and upload Moses model support.
 
 Future work:
 ===============
