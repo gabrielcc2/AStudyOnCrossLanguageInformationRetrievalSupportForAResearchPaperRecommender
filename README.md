@@ -42,7 +42,7 @@ Data classes:
 - ResultsList: List of resulting items from a query.
 - QueryTerms: Encapsulates a query string over each language, or one string that combines all languages. 
 - IndexedDocLSA: Data for indexing a document in LSA.
-	- 
+
 View package: 
 GUI related classes.
 
