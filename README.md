@@ -9,33 +9,33 @@ This was a project carried out in the University of Magdeburg Oct 2014-Feb 2015
 
 Overall the software consists of the following packages:
 
-Control: 
+Control package: 
 Classes that encapsuate the Business logic:
 - Main class, that starts the GUI or allows a console run.
 
-* Mgmt sub-package:
+Mgmt sub-package:
 - LanguagesManager: Singleton in charge of the overall information on languages. 
 - SpecificLanguageManager: Singleton looks after index and repo of a given language.
 - RecommendationsHandler: Singleton that generates the recommendations.
 
-* Querytermgen sub-package: 
+Querytermgen sub-package: 
 - Query term generator: Called by the RecommendationsHandler.
 
-* Index sub-package: 
+Index sub-package: 
 - LSA indexer: LSA indexing.
 - Per-Language indexer: Lucene indexing.
 - Indexer: dummy super-class from which the 2 former inherit. 
 
-* Query sub-package: 
+Query sub-package: 
 - Query handler: dummy super-class 
 - Per-language query handler
 - LSA query handler: Querying with LSA. 
 - CL query handler: Cross-language query handler. Implements optimizations.
 
-* Utils sub-package: 
+Utils sub-package: 
 - TranslationHandler: Singleton allowing to use translation services of Apertium, Google Translate and/or Moses.
 
-Model: 
+Model package: 
 Data classes:
 - LanguageFolder: Matches a language to its repository and index.
 - PaperHit: Resulting item from a query.
@@ -43,7 +43,7 @@ Data classes:
 - QueryTerms: Encapsulates a query string over each language, or one string that combines all languages. 
 - IndexedDocLSA: Data for indexing a document in LSA.
 	- 
-View: 
+View package: 
 GUI related classes.
 
 Apart from surveying some available alternatives for implementing cross-language information retrieval, the aim of this project was to allow the comparison of different approaches to the cross-language support:
