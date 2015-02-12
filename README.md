@@ -9,9 +9,11 @@ This was a project carried out in the University of Magdeburg Oct 2014-Feb 2015
 
 Overall the software consists of the following packages:
 
-Control: Classes that encapsuate the Business logic:
-	Main class, that starts the GUI or allows a console run.
-	Mgmt sub-package: - LanguagesManager: Singleton in charge of the overall information on languages. 
+Control: 
+Classes that encapsuate the Business logic:
+- Main class, that starts the GUI or allows a console run.
+- Mgmt sub-package:
+- LanguagesManager: Singleton in charge of the overall information on languages. 
 			  - SpecificLanguageManager: Singleton looks after index and repo of a given language.
                           - RecommendationsHandler: Singleton that generates the recommendations.
 	Querytermgen sub-package: -Query term generator: Called by the RecommendationsHandler.
@@ -117,6 +119,7 @@ Create proper documentation (JavaDocs), including explanations on all the server
 Evaluation.
 
 Future work:
-Facilitate the server configurations so as to make the system more portable. 
-Optionally study other configurations. Additional improvements with semantics and NLP, as well as extensions to the current LSA model, would be of interest.
-Finally porting and adapting to an existing domain might be fruitful. 
+- Facilitate the server configurations so as to make the system more portable. 
+- Adapting to an existing domain and testing infrastructure might be fruitful, specially since it would provide a clearer way for evaluating benefits and shortcomings of the methods used. 
+- Optionally other configurations could be studied. The use of an inter-lingual net for supporting translation, while coupled with good word-sense predictors, might be of interest, since it can lead to better translations and more accurate post-processing. Additional improvements with semantics and NLP, as well as extensions to the current LSA model, would be of interest as well. 
+- Finally, with a basis on the large amount of technologies available, aditional services could be further built for users, such as cross-languge query suggestions,  among others.
