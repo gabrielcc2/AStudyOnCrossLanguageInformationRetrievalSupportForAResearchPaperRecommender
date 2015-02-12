@@ -12,27 +12,39 @@ Overall the software consists of the following packages:
 Control: 
 Classes that encapsuate the Business logic:
 - Main class, that starts the GUI or allows a console run.
-- Mgmt sub-package:
+
+* Mgmt sub-package:
 - LanguagesManager: Singleton in charge of the overall information on languages. 
-			  - SpecificLanguageManager: Singleton looks after index and repo of a given language.
-                          - RecommendationsHandler: Singleton that generates the recommendations.
-	Querytermgen sub-package: -Query term generator: Called by the RecommendationsHandler.
-	Index sub-package: - LSA indexer: LSA indexing.
-			   - Per-Language indexer: Lucene indexing.
-			   - Indexer: dummy super-class from which the 2 former inherit. 
-	Query sub-package: - Query handler: dummy super-class 
-			   - Per-language query handler
-			   - LSA query handler: Querying with LSA. 
-			   - CL query handler: Cross-language query handler. Implements optimizations.
-	Utils sub-package: - TranslationHandler: Singleton allowing to use translation services of Apertium, 					     Google Translate and/or Moses.
-Model: Data classes:
-	- LanguageFolder: Matches a language to its repository and index.
-	- PaperHit: Resulting item from a query.
-	- ResultsList: List of resulting items from a query.
-	- QueryTerms: Encapsulates a query string over each language, or one string that combines all languages. 
-	- IndexedDocLSA: Data for indexing a document in LSA.
+- SpecificLanguageManager: Singleton looks after index and repo of a given language.
+- RecommendationsHandler: Singleton that generates the recommendations.
+
+* Querytermgen sub-package: 
+- Query term generator: Called by the RecommendationsHandler.
+
+* Index sub-package: 
+- LSA indexer: LSA indexing.
+- Per-Language indexer: Lucene indexing.
+- Indexer: dummy super-class from which the 2 former inherit. 
+
+* Query sub-package: 
+- Query handler: dummy super-class 
+- Per-language query handler
+- LSA query handler: Querying with LSA. 
+- CL query handler: Cross-language query handler. Implements optimizations.
+
+* Utils sub-package: 
+- TranslationHandler: Singleton allowing to use translation services of Apertium, Google Translate and/or Moses.
+
+Model: 
+Data classes:
+- LanguageFolder: Matches a language to its repository and index.
+- PaperHit: Resulting item from a query.
+- ResultsList: List of resulting items from a query.
+- QueryTerms: Encapsulates a query string over each language, or one string that combines all languages. 
+- IndexedDocLSA: Data for indexing a document in LSA.
 	- 
-View: GUI related classes.
+View: 
+GUI related classes.
 
 Apart from surveying some available alternatives for implementing cross-language information retrieval, the aim of this project was to allow the comparison of different approaches to the cross-language support:
 
