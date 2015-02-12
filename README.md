@@ -12,19 +12,20 @@ Apart from surveying some available alternatives for implementing cross-language
 - Latent Semantic Analysis (based on user provided cross-language training data)
 - Traditional indexing (with Lucene) and automated query translation (using one of several systems: Apertium, Google Translate API and Moses), further improved by:
 	- User mediated query refinement
-	- Translation post-processing: query expansion, by adding synonyms found in ontologies (after tagging with Stanfords PoS tagger) was tested. In the end only MultiWordNet support for English was included, but its Spanish section and GermaNet could be potentially used as well for those languages (after reaching agreements with author's institutions).
+	- Translation post-processing: query expansion, by adding synonyms found in ontologies (after tagging with Stanfords PoS tagger) was tested. In the end only MultiWordNet support for English was included. For Spanish MultiWordNet could be also used, and GermaNet for the German language (this requires an agreement with the author's).
+	- Additional improvements at the point when results from different indexes are merged (i.e. boosting scores of hits in under-represented languages).
 	- Other pre-processing improvements.
-	- Other improvements at the point when results from different indexes are merged (i.e. boosting scores of hits in under-represented languages).
+	
 
 Additional notes:
-Sense disambiguation for the query expansion was not supported (most common sense is chosen so far), but it could be added, also some recognition for searching phrases as opposed to words could also be an useful improvement over our approach.
+- Sense disambiguation for the query expansion was not supported (most common sense is chosen so far), but it could be added. Some recognition for searching phrases as opposed to words could also be a useful improvement to our approach.
 
-Code for PoS tagging German and Spanish is included.
+- Code for PoS tagging German and Spanish is included but not used.
 
 Code structure:
 ===============
 
-Overall the software consists of the following packages:
+Overall the provided library consists of the following packages:
 
 Control package: 
 Classes that encapsuate the Business logic:
@@ -66,29 +67,30 @@ GUI related classes.
 List of some open-source resources used:
 ===============
 
-For title and abstract extraction from pdf files:
-PDF-Inspector: https://github.com/Docear/PDF-Inspector
+For title and plain-text extraction from pdf files:
+- PDF-Inspector: https://github.com/Docear/PDF-Inspector
  
 For matrix operations during LSA:
-Apache Commons Math: https://commons.apache.org/proper/commons-math/
+- Apache Commons Math: https://commons.apache.org/proper/commons-math/
 
 For automated translation:
-Apertium Java Api: https://github.com/rmtheis/apertium-translator-java-api
-Apertium Service: http://api.apertium.org/
+- Apertium Java Api: https://github.com/rmtheis/apertium-translator-java-api
+- Apertium Web Service: http://api.apertium.org/
 
-Google Translate Api: https://code.google.com/p/google-api-translate-java/
-Google Service: https://cloud.google.com/translate/docs
+- Google Translate Api: https://code.google.com/p/google-api-translate-java/
+- Google Web Service: https://cloud.google.com/translate/docs
 
-MOSES statistical machine translation system: http://www.statmt.org/moses/
-Aditionally Giza++ statistical translation models toolkit was required for alignment: https://code.google.com/p/giza-pp/
-Corpora used (still to be defined).
+- MOSES statistical machine translation system: http://www.statmt.org/moses/
+- Aditionally Giza++ statistical translation models toolkit was required for alignment: https://code.google.com/p/giza-pp/
+- Corpora used (still to be defined).
 
 For PoS tagging in all languages:
-Stanford's PoS tagger: http://nlp.stanford.edu/software/tagger.shtml
+- Stanford's PoS tagger: http://nlp.stanford.edu/software/tagger.shtml
 
 And specific PoS models: 
 English model: 
-wsj-0-18-bidirectional-distsim.tagger
+- wsj-0-18-bidirectional-distsim.tagger
+
 Trained on WSJ sections 0-18 using a bidirectional architecture and
 including word shape and distributional similarity features.
 Penn Treebank tagset.
@@ -97,7 +99,8 @@ Performance:
 (90.46% correct on unknown words)
 
 German model (not used in current version):
-german-fast.tagger
+- german-fast.tagger
+
 Lacks distributional similarity features.
 Performance:
 96.61% overall / 86.72% unknown.
@@ -117,26 +120,28 @@ Performance:
 (90.33% on unknown words)
 
 Spanish model (not used in current version):
-Spanish-distsim.tagger
+- Spanish-distsim.tagger
 
 For adding synonym sets as a form of post-processing query expansion:
-MultiWordNet: http://multiwordnet.fbk.eu/english/home.php (English ontology kindly provided by email).
-Additionally we used a MySQL server running a database with the ontologies provided in .sql format.
+- MultiWordNet: http://multiwordnet.fbk.eu/english/home.php (English ontology kindly provided by email).
+- Additionally we used a MySQL server running a database with the ontologies provided in .sql format.
 
 For indexing and parsing:
-Lucene: http://lucene.apache.org/
+- Lucene: http://lucene.apache.org/
 
 Information on specific versions, authors, etc., can be checked through the code itself.
 
 Upcoming work:
 ===============
-Check and upload code for GUI.
-Create proper documentation (JavaDocs), including explanations on all the server configurations.
-Evaluation.
-Check and upload Moses model support.
+
+- Check and upload code for GUI.
+- Create proper documentation (JavaDocs), including explanations on all the server configurations.
+- Evaluation.
+- Check and upload Moses model support.
 
 Future work:
 ===============
+
 - Facilitate the server configurations so as to make the system more portable. 
 - Adapting to an existing domain and testing infrastructure might be fruitful, specially since it would provide a clearer way for evaluating benefits and shortcomings of the methods used. 
 - Optionally other configurations could be studied. The use of an inter-lingual net for supporting translation, while coupled with good word-sense predictors, might be of interest, since it can lead to better translations and more accurate post-processing. Additional improvements with semantics and NLP, as well as extensions to the current LSA model, would be of interest as well. 
