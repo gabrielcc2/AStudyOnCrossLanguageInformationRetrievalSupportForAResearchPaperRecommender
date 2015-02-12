@@ -10,7 +10,7 @@ This was a project carried out in the University of Magdeburg Oct 2014-Feb 2015
 Overall the software consists of the following packages:
 
 Control: Classes that encapsuate the Business logic:
-	Main class, that starts the GUI or allows a console-run.
+	Main class, that starts the GUI or allows a console run.
 	Mgmt sub-package: - LanguagesManager: Singleton in charge of the overall information on languages. 
 			  - SpecificLanguageManager: Singleton looks after index and repo of a given language.
                           - RecommendationsHandler: Singleton that generates the recommendations.
