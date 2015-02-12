@@ -135,14 +135,14 @@ Upcoming work:
 ===============
 
 - Check and upload code for GUI.
-- Create proper documentation (JavaDocs), including explanations on all the server configurations.
 - Evaluation.
-- Check and upload Moses model support.
+- Create proper documentation (JavaDocs), including explanations on all the server configurations.
+- Check and upload Moses model support, add this to documentation.
 
 Future work:
 ===============
 
 - Facilitate the server configurations so as to make the system more portable. 
 - Adapting to an existing domain and testing infrastructure might be fruitful, specially since it would provide a clearer way for evaluating benefits and shortcomings of the methods used. 
-- Optionally other configurations could be studied. The use of an inter-lingual net for supporting translation, while coupled with good word-sense predictors, might be of interest, since it can lead to better translations and more accurate post-processing. Additional improvements with semantics and NLP, as well as extensions to the current LSA model, would be of interest as well. 
-- Finally, with a basis on the large amount of technologies available, aditional services could be further built for users, such as cross-languge query suggestions,  among others.
+- Optionally other configurations could be studied. The use of an inter-lingual net for supporting translation, while coupled with good word-sense predictors, might be of interest, since it might lead to better translations and more accurate post-processing. Additional improvements with semantics and NLP, as well as extensions to the current LSA model, would be of interest as well. 
+- Finally, with a basis on our work and the large amount of technologies available, aditional cross-language services could be further built for users, such as cross-languge query suggestions,  among others.
