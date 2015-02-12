@@ -65,6 +65,11 @@ public class LSAIndexer extends Indexer {
 		 * 
 		 * */
 		public void createIndex(List<String> queryLanguages, String trainingData, String indexFolder, int numDimensions){
+		
+			if (VERBOSE){
+				System.out.println("\n*****************************************************************");
+				System.out.println("Indexing with LSA:\n*****************************************************************");
+			}
 			
 			File td = new File(trainingData+"/data.txt");
 			List<String> terms= new ArrayList<String>();
@@ -283,7 +288,7 @@ public class LSAIndexer extends Indexer {
 										featuresToIndex=featuresToIndex.replace("]", " ");
 										featuresToIndex=featuresToIndex.replace("|", " ");
 										featuresToIndex=featuresToIndex.replace(" ", "");
-										featuresToIndex=featuresToIndex.replace("", " ");
+										featuresToIndex=featuresToIndex.replace("", "");
 										featuresToIndex=featuresToIndex.replace("_", " ");
 										featuresToIndex=featuresToIndex.toLowerCase();
 										
@@ -309,7 +314,7 @@ public class LSAIndexer extends Indexer {
 											}
 										}
 										if (VERBOSE){
-											System.out.println("File indexed with LSI: "+title+" Number of terms (from training data) found for LSA indexing:"+numTerms);
+											System.out.println("File indexed with LSA: "+title+" Number of terms (from training data) found for LSA indexing:"+numTerms);
 										}
 										if (numTerms>0){
 

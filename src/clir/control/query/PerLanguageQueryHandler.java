@@ -63,7 +63,7 @@ public class PerLanguageQueryHandler extends QueryHandler{
 				Query q=null;
 				try {
 					if (VERBOSE){
-						System.out.println("Query String EN: "+query);
+						System.out.println("* Resulting query string used EN: "+query);
 					}
 					q = multiFieldQP.parse(MultiFieldQueryParser.escape(query));
 				} catch (ParseException e1) {
@@ -118,7 +118,7 @@ public class PerLanguageQueryHandler extends QueryHandler{
 				Query q=null;
 				try {
 					if (VERBOSE){
-						System.out.println("Query String DE: "+query);
+						System.out.println("* Resulting query string used DE: "+query);
 					}
 					q = multiFieldQP.parse(MultiFieldQueryParser.escape(query));
 				} catch (ParseException e1) {
@@ -175,7 +175,7 @@ public class PerLanguageQueryHandler extends QueryHandler{
 				Query q=null;
 				try {
 					if (VERBOSE){
-						System.out.println("Query String ES: "+query);
+						System.out.println("* Resulting query string used ES: "+query);
 					}
 					q = multiFieldQP.parse(MultiFieldQueryParser.escape(query));
 				} catch (ParseException e1) {

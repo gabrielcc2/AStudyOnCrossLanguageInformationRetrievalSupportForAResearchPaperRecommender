@@ -17,7 +17,7 @@ import com.google.api.translate.Translate;
 
 public class TranslationHandler {
 	private static String REFERRER="https://github.com/gabrielcc2";
-	private static String GOOGLE_KEY="_";
+	private static String GOOGLE_KEY="AIzaSyCm2vYySiTwWENU3J2YtCulHoAJasKF1ps";
 	
 	private Boolean VERBOSE=true;
 	@SuppressWarnings("unused")
@@ -87,7 +87,9 @@ public class TranslationHandler {
 			}
 		
 		   if (VERBOSE){
+			   System.out.println("*********************************************************************");
 			   System.out.println(queryStr+" translated with Google Translate API as: "+translatedText);
+			   System.out.println("*********************************************************************");
 		   }
 
 		   return translatedText;

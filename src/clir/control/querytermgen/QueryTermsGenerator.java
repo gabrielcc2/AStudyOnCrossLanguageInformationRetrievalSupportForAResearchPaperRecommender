@@ -108,18 +108,18 @@ public class QueryTermsGenerator {
 							if (title.length()>2){
 								/**This house-keeping is needed since we don't use Lucene's Analyzer for cleaning 
 								 * in the case of LSI*/
-								title=title.replace(".", " ");
-								title=title.replace(",", " ");
+								title=title.replace(".", "");
+								title=title.replace(",", "");
 								title=title.replace(":", " ");
-								title=title.replace("(", " ");
-								title=title.replace(")", " ");
+								title=title.replace("(", "");
+								title=title.replace(")", "");
 								title=title.replace("©", " ");
 								title=title.replace("*", " ");
-								title=title.replace("[", " ");
-								title=title.replace("]", " ");
+								title=title.replace("[", "");
+								title=title.replace("]", "");
 								title=title.replace("|", " ");
 								title=title.replace(" ", "");
-								title=title.replace("", " ");
+								title=title.replace("", "");
 								title=title.replace("_", " ");
 								title=title.toLowerCase();
 								result.addQueryTerm(title.toLowerCase(), lang);
@@ -129,7 +129,9 @@ public class QueryTermsGenerator {
 			}
 		}
 		if (VERBOSE){
-			System.out.println("Query terms generated: ");
+			System.out.println("\n*****************************************************************");
+			System.out.println("Querying:\n*****************************************************************");
+			System.out.println("* Raw query terms generated: ");
 			for (int i=0; i<result.getLangs().size(); i++){
 				String lang=result.getLangs().get(i);
 				System.out.println("Terms for "+lang+" : "+result.getTermsOfLang(lang));

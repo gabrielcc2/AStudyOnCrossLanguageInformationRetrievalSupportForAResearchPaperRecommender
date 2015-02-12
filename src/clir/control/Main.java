@@ -30,57 +30,71 @@ public class Main {
 	public static void main(String[] args) {
 		
 		boolean useGUI=false;
-		boolean useLSI=true;
+		boolean useLSI=false;
 				
 		if (useGUI){
 		}
 		else{
+			
+			/**Defining the general language support*/
 			LanguagesManager.getInstance().addLanguage("EN");
 			LanguagesManager.getInstance().addLanguage("ES");
 		//	LanguagesManager.getInstance().addLanguage("DE");
-			//LanguagesManager.getInstance().getSpecificManager("EN").createIndex();
-			//LanguagesManager.getInstance().getSpecificManager("ES").createIndex();
-		//	LanguagesManager.getInstance().getSpecificManager("DE").createIndex();
 			
-			/**Defining the configuration required for recommending...*/
-
 						
-			/**Ask for the recommendations...*/
+			/**Where we'll store the resulting recommendations...*/
 			ResultsList recommendations = new ResultsList();
 	
 			if (useLSI){
-				LanguagesManager.getInstance().createLSAIndex(LanguagesManager.getInstance().getLanguagesSupported(), 3);
-				recommendations.assign(RecommendationsHandler.getInstance().getRecommendationsLSA(
-						LanguagesManager.getInstance().getLanguagesSupported(), 
-						10));
+					/**The index is explicitly created for LSA*/
+					LanguagesManager.getInstance().createLSAIndex(LanguagesManager.getInstance().getLanguagesSupported(), 3);
+				
+					/**We ask for the recommendations*/
+					recommendations.assign(
+							RecommendationsHandler.getInstance().getRecommendationsLSA(
+									LanguagesManager.getInstance().getLanguagesSupported(), 
+									10));
 			}
 			else{
-			recommendations.assign(RecommendationsHandler.getInstance().getRecommendations(
-					LanguagesManager.getInstance().getLanguagesSupported(), 
-					10, false, "google", false, false));
+					/**The per-language indexes are explicitly created for LSA. 
+					 * If this is not done, we can still use default indexes.
+					 * Here we could also change the indexLocation*/
+				
+					LanguagesManager.getInstance().getSpecificManager("EN").createIndex(); 
+					LanguagesManager.getInstance().getSpecificManager("ES").createIndex(); 
+				
+					//	LanguagesManager.getInstance().getSpecificManager("DE").createIndex(); 
+					
+					/**We ask for the recommendations*/
+					recommendations.assign(
+							RecommendationsHandler.getInstance().getRecommendations(
+									LanguagesManager.getInstance().getLanguagesSupported(), 
+									10, true, "google", true, true));
 			}
 			
 			/**Printing the recommendations*/
+			System.out.println("\n*****************************************************************");
 			if (recommendations.isEmptyPaperHits()){
 				System.out.println("No recommendations found.");
+				System.out.println("*****************************************************************");
 			}
 			else {
 				if (useLSI){
-					System.out.println("Results produced using LSI:");
+					System.out.println("Results produced using LSA:");
 				}
 				else{
 					System.out.println("Results produced using Automatic Query Translation and Optimizations:");
 				}
 				System.out.println("Number of hits: "+recommendations.getPaperHits().get(0).getNumOfResults());
 				for (int i=0; i<recommendations.getPaperHits().size(); i++){
-					System.out.println("***************************************************");
+					System.out.println("*****************************************************************");
 					String paperHit="Rank: "+recommendations.getPaperHits().get(i).getRank().toString();
 					paperHit+=" Title: "+recommendations.getPaperHits().get(i).getTitle()+
 					" Url: "+recommendations.getPaperHits().get(i).getUrl()+
 					" Relevance Score: "+recommendations.getPaperHits().get(i).getRelevanceScore();
 					System.out.println(paperHit);
 				}
-				System.out.println("***************************************************");
+				System.out.println("*****************************************************************");
 			}
 		}
 	}

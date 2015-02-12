@@ -41,6 +41,11 @@ public class PerLanguageIndexer extends Indexer {
 	
 	public void createIndex(String lang, String repoLocation, String indexLocation){
 		
+		if (VERBOSE){
+			System.out.println("\n*****************************************************************");
+			System.out.println("Traditional per-language indexing for "+lang+":\n*****************************************************************");
+		}
+		
 		File repository = new File(repoLocation);
 
 		if (repository.exists()&& repository.isDirectory()) { //It checks if it is a directory (i.e. a folder)
@@ -138,17 +143,17 @@ public class PerLanguageIndexer extends Indexer {
 							 * since Lucene takes care of them, but since we don that
 							 * for the QueryTerms that can be from LSI, it's better 
 							 * to do this.*/
-							result=result.replace(".", " ");
-							result=result.replace(",", " ");
+							result=result.replace(".", "");
+							result=result.replace(",", "");
 							result=result.replace(":", " ");
-							result=result.replace("(", " ");
-							result=result.replace(")", " ");
+							result=result.replace("(", "");
+							result=result.replace(")", "");
 							result=result.replace("©", " ");
 							result=result.replace("*", " ");
-							result=result.replace("[", " ");
-							result=result.replace("]", " ");
+							result=result.replace("[", "");
+							result=result.replace("]", "");
 							result=result.replace(" ", "");
-							result=result.replace("", " ");
+							result=result.replace("", "");
 							result=result.replace("_", " ");
 							result=result.toLowerCase();
 							
@@ -213,7 +218,7 @@ public class PerLanguageIndexer extends Indexer {
 							try {
 								writer.addDocument(luceneDoc);
 								if (VERBOSE){
-									System.out.println(lang+" "+(i+1)+" of "+files.length+": File to index: "+files[i].toString()+" Title: "+title+ " Abstract: "+abstractString);
+									System.out.println("Language: "+lang+" "+(i+1)+" of "+files.length+": File to index: "+files[i].toString()+" Title: "+title+ " Abstract: "+abstractString);
 								}
 							} catch (IOException e) {
 								// TODO Auto-generated catch block

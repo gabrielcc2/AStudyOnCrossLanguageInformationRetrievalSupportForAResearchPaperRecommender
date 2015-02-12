@@ -29,9 +29,9 @@ public class CrossLanguageQueryHandler extends QueryHandler{
 	
 	/**Singleton instance of type CrossLanguageQueryHandler */
 	private static CrossLanguageQueryHandler handler = null;
-	private static String DE_tagger="german-fast";
+//	private static String DE_tagger="german-fast";
 	private static String EN_tagger="wsj-0-18-bidirectional-distsim";
-	private static String ES_tagger="spanish-distsim";
+//	private static String ES_tagger="spanish-distsim";
 	/**Functions */
 	
 	/**Protected constructor function, to defeat instantiation. */
@@ -49,7 +49,7 @@ public class CrossLanguageQueryHandler extends QueryHandler{
 	}
 	
 	private QueryTerms preProcess (QueryTerms query, Boolean preProcessingOption){
-		List<String> langs= new ArrayList<String>();
+	/*	List<String> langs= new ArrayList<String>();
 		langs.addAll(query.getLangs());
 		for (int i=0; i<langs.size(); i++){
 			String lang=langs.get(i);
@@ -65,6 +65,7 @@ public class CrossLanguageQueryHandler extends QueryHandler{
 				//Pre-processing optimizations
 			}
 		}
+		*/
 		QueryTerms improvedTerms = new QueryTerms(query.getTerms(), query.getLangs());
 		return improvedTerms;
 	}
@@ -76,15 +77,16 @@ public class CrossLanguageQueryHandler extends QueryHandler{
 		for (int i=0; i<langs.size(); i++){
 			String lang=langs.get(i);
 			if (lang.equals("DE")&&postProcessingOption){
+				
 				//Post-processing refinements
 				//We start by tagging for POS the query terms, with Stanfords POS tagger.
-				List<String> nounsFound= new ArrayList<String>();
+		/*		List<String> nounsFound= new ArrayList<String>();
 				List<String> verbsFound= new ArrayList<String>();
 				List<String> adjFound= new ArrayList<String>();
+			*/	
+				//MaxentTagger tagger = new MaxentTagger("resources/taggers/"+DE_tagger+".tagger");
 				
-				MaxentTagger tagger = new MaxentTagger("resources/taggers/"+DE_tagger+".tagger");
-				
-				InputStream is = new ByteArrayInputStream(query.getTermsOfLang("DE").getBytes());
+	/*			InputStream is = new ByteArrayInputStream(query.getTermsOfLang("DE").getBytes());
 				 
 				// read it with BufferedReader
 				BufferedReader br = new BufferedReader(new InputStreamReader(is));
@@ -105,9 +107,9 @@ public class CrossLanguageQueryHandler extends QueryHandler{
 			    	  }
 			      }
 			    }
-				@SuppressWarnings("unused")
 				Set<String> newWords = new HashSet<String>();
-
+	 			*/
+				
 				//Semantic knowledge of German can be plugged in here...
 				
 				//For German we could use GermanNet
@@ -127,7 +129,7 @@ public class CrossLanguageQueryHandler extends QueryHandler{
 				
 				MaxentTagger tagger = new MaxentTagger("resources/taggers/"+EN_tagger+".tagger");
 				
-				InputStream is = new ByteArrayInputStream("Decision making took a high toll. She is a sunny girl. Berlin is always exciting. Sunny Berlin".getBytes());
+				InputStream is = new ByteArrayInputStream(query.getTermsOfLang(lang).getBytes());
 				 
 				// read it with BufferedReader
 				BufferedReader br = new BufferedReader(new InputStreamReader(is));
@@ -156,12 +158,12 @@ public class CrossLanguageQueryHandler extends QueryHandler{
 	                if (word!=null){
 	                	Synset[] senses = word.getSenses();
 	                	if (senses!=null && senses.length>=1){
-	                		Synset sense= senses[0];//Most common sense chosen.
+	                		Synset sense= senses[0];//Most common sense chosen, perhaps this could be improved.
 	            
 	                		Word[] synonyms = sense.getWords();
 	                		for (int j=0; j<synonyms.length; j++){
 	                			if (!synonyms[j].getLemma().equals(nounsFound.get(k))&&synonyms[j].getLemma().length()>1){
-	                				newWords.add(synonyms[j].getLemma());     // Print Synset Description
+	                				newWords.add(synonyms[j].getLemma());     
 	                			}
 	                		}
 	                	}
@@ -172,28 +174,28 @@ public class CrossLanguageQueryHandler extends QueryHandler{
 	                if (word!=null){
 	                	Synset[] senses = word.getSenses();
 	                	if (senses!=null && senses.length>=1){
-	                		Synset sense= senses[0];//Most common sense chosen.
+	                		Synset sense= senses[0];//Most common sense chosen, perhaps this could be improved.
 	            
 	                		Word[] synonyms = sense.getWords();
 	                		for (int j=0; j<synonyms.length; j++){
 	                			if (!synonyms[j].getLemma().equals(adjFound.get(k))&&synonyms[j].getLemma().length()>1){
-	                				newWords.add(synonyms[j].getLemma());     // Print Synset Description
+	                				newWords.add(synonyms[j].getLemma());     
 	                			}
 	                		}
 	                	}
 	                }
 				}
 				for (int k=0; k<verbsFound.size(); k++){
-				    IndexWord word = dictionary.lookupIndexWord(POS.ADJ, verbsFound.get(k), "english");
+				    IndexWord word = dictionary.lookupIndexWord(POS.VERB, verbsFound.get(k), "english");
 	                if (word!=null){
 	                	Synset[] senses = word.getSenses();
 	                	if (senses!=null && senses.length>=1){
-	                		Synset sense= senses[0];//Most common sense chosen.
+	                		Synset sense= senses[0];//Most common sense chosen, perhaps this could be improved.
 	            
 	                		Word[] synonyms = sense.getWords();
 	                		for (int j=0; j<synonyms.length; j++){
 	                			if (!synonyms[j].getLemma().equals(verbsFound.get(k))&&synonyms[j].getLemma().length()>1){
-	                				newWords.add(synonyms[j].getLemma());     // Print Synset Description
+	                				newWords.add(synonyms[j].getLemma());    
 	                			}
 	                		}
 	                	}
@@ -201,19 +203,19 @@ public class CrossLanguageQueryHandler extends QueryHandler{
 				}
 				Object[] newWordsArray=newWords.toArray();
 				for (int j=0; j<newWordsArray.length; j++){
-					improvedTerms.addQueryTerm(newWordsArray[i].toString(), "EN");
+					improvedTerms.addQueryTerm(newWordsArray[j].toString(), "EN");
 				}
 			}
 			else if (lang.equals("ES")&&postProcessingOption){
 				//Post-processing refinements
 				//We start by tagging for POS the query terms, with Stanfords POS tagger.
-				List<String> nounsFound= new ArrayList<String>();
+	/*			List<String> nounsFound= new ArrayList<String>();
 				List<String> verbsFound= new ArrayList<String>();
 				List<String> adjFound= new ArrayList<String>();
-
-				MaxentTagger tagger = new MaxentTagger("resources/taggers/"+ES_tagger+".tagger");
+*/
+	//			MaxentTagger tagger = new MaxentTagger("resources/taggers/"+ES_tagger+".tagger");
 				
-				InputStream is = new ByteArrayInputStream(query.getTermsOfLang("ES").getBytes());
+		/*		InputStream is = new ByteArrayInputStream(query.getTermsOfLang("ES").getBytes());
 				 
 				// read it with BufferedReader
 				BufferedReader br = new BufferedReader(new InputStreamReader(is));
@@ -234,9 +236,8 @@ public class CrossLanguageQueryHandler extends QueryHandler{
 			    	  }
 			      }
 			    }
-				@SuppressWarnings("unused")
 				Set<String> newWords = new HashSet<String>();
-				
+			*/	
 				//Semantic knowledge of Spanish can be plugged in here...
 
 				//For Spanish we could use MultiWordNet...
@@ -264,7 +265,7 @@ public class CrossLanguageQueryHandler extends QueryHandler{
 		}
 		if (VERBOSE){
 			for (int i=0; i<translatedTerms.getLangs().size(); i++){
-				System.out.println("Translated query "+i+"- Lang: "+
+				System.out.println("* Query produced after being expanded with translations "+i+"- Lang: "+
 						translatedTerms.getLangs().get(i)+" Query: "+
 						translatedTerms.getTerms().get(i));
 			}
@@ -272,18 +273,22 @@ public class CrossLanguageQueryHandler extends QueryHandler{
 		return translatedTerms;
 	}
 	
-	public List<PaperHit> combineResults(ResultsList[] partialHits, int size, Boolean combiningOption){
+	public List<PaperHit> combineResults(ResultsList[] partialHitsInput, int size, Boolean combiningOption){
 		List<PaperHit> combinedResults= new ArrayList<PaperHit>();
+		ResultsList[] partialHits= partialHitsInput;
 		int numberOfHits= 0;
 		if (combiningOption){
 			for (int i=0; i<partialHits.length; i++){
 				List<PaperHit> hits= partialHits[i].getPaperHits();
 				if (!hits.isEmpty()){
-					if(!hits.get(0).getLang().equals("EN")){
+					if(!hits.get(i).getLang().equals("EN")){
 						for (int k=0; k<hits.size(); k++){
-							hits.get(k).setRelevanceScore(1.1f*hits.get(k).getRelevanceScore());
+							float formerValue=hits.get(k).getRelevanceScore();
+							partialHits[i].getPaperHits().get(k).setRelevanceScore(1.5f*formerValue);
+							if (VERBOSE){
+								System.out.println("* Merging improvement used- Relevance score of: "+partialHits[i].getPaperHits().get(k).getTitle()+" boosted by 1.5, reaching: "+partialHits[i].getPaperHits().get(k).getRelevanceScore()+" from: "+formerValue);
+							}
 						}
-						partialHits[i].setPaperHits(hits);
 					}
 				}
 			}
@@ -336,7 +341,7 @@ public class CrossLanguageQueryHandler extends QueryHandler{
 			if (q.length()>1){
 					partialHits[i].setPaperHits((agent.runQuery(q)).getPaperHits());
 					if (DEBUG){
-						System.out.println("Hits for: "+currentLanguage);
+						System.out.println("* Hits for: "+currentLanguage);
 						if(partialHits[i].getPaperHits().size()>=1){
 							for (int k=0; k<partialHits[i].getPaperHits().size(); k++){
 								System.out.println(k+": "+partialHits[i].getPaperHits().get(k).getUrl());
@@ -368,7 +373,7 @@ public class CrossLanguageQueryHandler extends QueryHandler{
 			if (q.length()>1){
 					partialHits[i].setPaperHits((agent.runQuery(q)).getPaperHits());
 					if (DEBUG){
-						System.out.println("Hits for: "+currentLanguage);
+						System.out.println("* Hits for: "+currentLanguage);
 						if(partialHits[i].getPaperHits().size()>=1){
 							for (int k=0; k<partialHits[i].getPaperHits().size(); k++){
 								System.out.println(k+": "+partialHits[i].getPaperHits().get(k).getUrl());
