@@ -196,7 +196,7 @@ public class LSAQueryHandler extends QueryHandler {
 		            {
 		                   if ( relevanceScores[ j ] < relevanceScores[j+1] )   // change to > for ascending sort
 		                   {
-		                	   	   tempPos=j;
+		                	   	   tempPos=indexesToRelevanceScores[j];
 		                           temp = relevanceScores[ j ];                //swap elements
 		                           
 		                           indexesToRelevanceScores[j]=indexesToRelevanceScores[j+1];

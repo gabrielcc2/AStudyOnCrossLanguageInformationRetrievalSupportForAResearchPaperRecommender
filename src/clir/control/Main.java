@@ -1,8 +1,11 @@
 package clir.control;
 
+
+
 import clir.control.mgmt.LanguagesManager;
 import clir.control.mgmt.RecommendationsHandler;
 import clir.model.ResultsList;
+
 
 /**
  * 
@@ -28,7 +31,7 @@ public class Main {
 		
 		boolean useGUI=false;
 		boolean useLSI=true;
-		
+				
 		if (useGUI){
 		}
 		else{

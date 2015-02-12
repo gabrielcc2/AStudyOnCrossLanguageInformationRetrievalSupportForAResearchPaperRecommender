@@ -1,19 +1,37 @@
 package clir.control.query;
 
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
+import org.itc.mwn.DictionaryDatabase;
+import org.itc.mwn.IndexWord;
+import org.itc.mwn.MysqlDictionary;
+import org.itc.mwn.POS;
+import org.itc.mwn.Synset;
+import org.itc.mwn.Word;
 
 import clir.control.utils.TranslationHandler;
 import clir.model.PaperHit;
 import clir.model.QueryTerms;
 import clir.model.ResultsList;
+import edu.stanford.nlp.ling.HasWord;
+import edu.stanford.nlp.ling.TaggedWord;
+import edu.stanford.nlp.tagger.maxent.MaxentTagger;
 
 public class CrossLanguageQueryHandler extends QueryHandler{
 	
 	/**Singleton instance of type CrossLanguageQueryHandler */
 	private static CrossLanguageQueryHandler handler = null;
-	
+	private static String DE_tagger="german-fast";
+	private static String EN_tagger="wsj-0-18-bidirectional-distsim";
+	private static String ES_tagger="spanish-distsim";
 	/**Functions */
 	
 	/**Protected constructor function, to defeat instantiation. */
@@ -35,36 +53,198 @@ public class CrossLanguageQueryHandler extends QueryHandler{
 		langs.addAll(query.getLangs());
 		for (int i=0; i<langs.size(); i++){
 			String lang=langs.get(i);
-			if (lang.equals("DE")){
-				//Pre-process
+			if (lang.equals("DE")&&preProcessingOption){
+				//Pre-processing optimizations... 
+				//Perhaps spell-checking for obvious mistakes?... Left for future versions.
 			}
-			else if (lang.equals("EN")){
-				//Pre-process
+			else if (lang.equals("EN")&&preProcessingOption){
+				//Pre-processing optimizations
+				
 			}
-			else if (lang.equals("ES")){
-				//Pre-process
+			else if (lang.equals("ES")&&preProcessingOption){
+				//Pre-processing optimizations
 			}
 		}
 		QueryTerms improvedTerms = new QueryTerms(query.getTerms(), query.getLangs());
 		return improvedTerms;
 	}
 
-	private QueryTerms postProcess (QueryTerms query, Boolean preProcessingOption){
+	private QueryTerms postProcess (QueryTerms query, Boolean postProcessingOption){
 		List<String> langs= new ArrayList<String>();
 		langs.addAll(query.getLangs());
+		QueryTerms improvedTerms = new QueryTerms(query.getTerms(), query.getLangs());
 		for (int i=0; i<langs.size(); i++){
 			String lang=langs.get(i);
-			if (lang.equals("DE")){
-				//Pre-process
+			if (lang.equals("DE")&&postProcessingOption){
+				//Post-processing refinements
+				//We start by tagging for POS the query terms, with Stanfords POS tagger.
+				List<String> nounsFound= new ArrayList<String>();
+				List<String> verbsFound= new ArrayList<String>();
+				List<String> adjFound= new ArrayList<String>();
+				
+				MaxentTagger tagger = new MaxentTagger("resources/taggers/"+DE_tagger+".tagger");
+				
+				InputStream is = new ByteArrayInputStream(query.getTermsOfLang("DE").getBytes());
+				 
+				// read it with BufferedReader
+				BufferedReader br = new BufferedReader(new InputStreamReader(is));
+				
+			    List<List<HasWord>> sentences = MaxentTagger.tokenizeText(br);
+			    
+			    for (List<HasWord> sentence : sentences) {
+			      List<TaggedWord> tSentence = tagger.tagSentence(sentence);
+			      for (int j=0; j<tSentence.size(); j++){
+			    	  if (tSentence.get(j).tag().toLowerCase().startsWith("n")){
+			    		  	nounsFound.add(tSentence.get(j).word().toLowerCase());
+			    	  }
+			    	  else if (tSentence.get(j).tag().toLowerCase().startsWith("ad")){
+			    		  	adjFound.add(tSentence.get(j).word().toLowerCase());
+			    	  }
+			    	  else if (tSentence.get(j).tag().toLowerCase().startsWith("v")){
+			    		  	verbsFound.add(tSentence.get(j).word().toLowerCase());
+			    	  }
+			      }
+			    }
+				@SuppressWarnings("unused")
+				Set<String> newWords = new HashSet<String>();
+
+				//Semantic knowledge of German can be plugged in here...
+				
+				//For German we could use GermanNet
+				//Sense disambiguation is not handled, but could be. We stick to the most common sense. 
+				//Then we find the synsets for each term and add them to a set we have
+				//Finally we add this set to the query
 			}
-			else if (lang.equals("EN")){
-				//Pre-process
+			else if (lang.equals("EN")&&postProcessingOption){
+				//Post-processing refinements
+
+				//Perhaps a useful approach would be to detect concepts, so they get queried for synonyms together. 
+
+				//We start by tagging for POS the query terms, with Stanfords POS tagger.
+				List<String> nounsFound= new ArrayList<String>();
+				List<String> verbsFound= new ArrayList<String>();
+				List<String> adjFound= new ArrayList<String>();
+				
+				MaxentTagger tagger = new MaxentTagger("resources/taggers/"+EN_tagger+".tagger");
+				
+				InputStream is = new ByteArrayInputStream("Decision making took a high toll. She is a sunny girl. Berlin is always exciting. Sunny Berlin".getBytes());
+				 
+				// read it with BufferedReader
+				BufferedReader br = new BufferedReader(new InputStreamReader(is));
+				
+			    List<List<HasWord>> sentences = MaxentTagger.tokenizeText(br);
+			    
+			    for (List<HasWord> sentence : sentences) {
+			      List<TaggedWord> tSentence = tagger.tagSentence(sentence);
+			      for (int j=0; j<tSentence.size(); j++){
+			    	  if (tSentence.get(j).tag().toLowerCase().startsWith("n")){
+			    		  	nounsFound.add(tSentence.get(j).word().toLowerCase());
+			    	  }
+			    	  else if (tSentence.get(j).tag().toLowerCase().startsWith("j")){
+			    		  	adjFound.add(tSentence.get(j).word().toLowerCase());
+			    	  }
+			    	  else if (tSentence.get(j).tag().toLowerCase().startsWith("v")){
+			    		  	verbsFound.add(tSentence.get(j).word().toLowerCase());
+			    	  }
+			      }
+			    }
+				Set<String> newWords = new HashSet<String>();
+	            DictionaryDatabase dictionary = new MysqlDictionary();
+				
+	            for (int k=0; k<nounsFound.size(); k++){
+	                IndexWord word = dictionary.lookupIndexWord(POS.NOUN, nounsFound.get(k), "english");
+	                if (word!=null){
+	                	Synset[] senses = word.getSenses();
+	                	if (senses!=null && senses.length>=1){
+	                		Synset sense= senses[0];//Most common sense chosen.
+	            
+	                		Word[] synonyms = sense.getWords();
+	                		for (int j=0; j<synonyms.length; j++){
+	                			if (!synonyms[j].getLemma().equals(nounsFound.get(k))&&synonyms[j].getLemma().length()>1){
+	                				newWords.add(synonyms[j].getLemma());     // Print Synset Description
+	                			}
+	                		}
+	                	}
+	                }
+				}
+				for (int k=0; k<adjFound.size(); k++){
+				    IndexWord word = dictionary.lookupIndexWord(POS.ADJ, adjFound.get(k), "english");
+	                if (word!=null){
+	                	Synset[] senses = word.getSenses();
+	                	if (senses!=null && senses.length>=1){
+	                		Synset sense= senses[0];//Most common sense chosen.
+	            
+	                		Word[] synonyms = sense.getWords();
+	                		for (int j=0; j<synonyms.length; j++){
+	                			if (!synonyms[j].getLemma().equals(adjFound.get(k))&&synonyms[j].getLemma().length()>1){
+	                				newWords.add(synonyms[j].getLemma());     // Print Synset Description
+	                			}
+	                		}
+	                	}
+	                }
+				}
+				for (int k=0; k<verbsFound.size(); k++){
+				    IndexWord word = dictionary.lookupIndexWord(POS.ADJ, verbsFound.get(k), "english");
+	                if (word!=null){
+	                	Synset[] senses = word.getSenses();
+	                	if (senses!=null && senses.length>=1){
+	                		Synset sense= senses[0];//Most common sense chosen.
+	            
+	                		Word[] synonyms = sense.getWords();
+	                		for (int j=0; j<synonyms.length; j++){
+	                			if (!synonyms[j].getLemma().equals(verbsFound.get(k))&&synonyms[j].getLemma().length()>1){
+	                				newWords.add(synonyms[j].getLemma());     // Print Synset Description
+	                			}
+	                		}
+	                	}
+	                }	
+				}
+				Object[] newWordsArray=newWords.toArray();
+				for (int j=0; j<newWordsArray.length; j++){
+					improvedTerms.addQueryTerm(newWordsArray[i].toString(), "EN");
+				}
 			}
-			else if (lang.equals("ES")){
-				//Pre-process
+			else if (lang.equals("ES")&&postProcessingOption){
+				//Post-processing refinements
+				//We start by tagging for POS the query terms, with Stanfords POS tagger.
+				List<String> nounsFound= new ArrayList<String>();
+				List<String> verbsFound= new ArrayList<String>();
+				List<String> adjFound= new ArrayList<String>();
+
+				MaxentTagger tagger = new MaxentTagger("resources/taggers/"+ES_tagger+".tagger");
+				
+				InputStream is = new ByteArrayInputStream(query.getTermsOfLang("ES").getBytes());
+				 
+				// read it with BufferedReader
+				BufferedReader br = new BufferedReader(new InputStreamReader(is));
+				
+			    List<List<HasWord>> sentences = MaxentTagger.tokenizeText(br);
+			    
+			    for (List<HasWord> sentence : sentences) {
+			      List<TaggedWord> tSentence = tagger.tagSentence(sentence);
+			      for (int j=0; j<tSentence.size(); j++){
+			    	  if (tSentence.get(j).tag().toLowerCase().startsWith("n")){
+			    		  	nounsFound.add(tSentence.get(j).word().toLowerCase());
+			    	  }
+			    	  else if (tSentence.get(j).tag().toLowerCase().startsWith("a")){
+			    		  	adjFound.add(tSentence.get(j).word().toLowerCase());
+			    	  }
+			    	  else if (tSentence.get(j).tag().toLowerCase().startsWith("v")){
+			    		  	verbsFound.add(tSentence.get(j).word().toLowerCase());
+			    	  }
+			      }
+			    }
+				@SuppressWarnings("unused")
+				Set<String> newWords = new HashSet<String>();
+				
+				//Semantic knowledge of Spanish can be plugged in here...
+
+				//For Spanish we could use MultiWordNet...
+				//Sense disambiguation is not handled, but could be. We stick to the most common sense. 
+				//Then we find the synsets for each term and add them to a set we have
+				//Finally we add this set to the query
 			}
 		}
-		QueryTerms improvedTerms = new QueryTerms(query.getTerms(), query.getLangs());
 		return improvedTerms;
 	}
 	private QueryTerms getTranslations (QueryTerms query, String translationOption){
@@ -95,6 +275,19 @@ public class CrossLanguageQueryHandler extends QueryHandler{
 	public List<PaperHit> combineResults(ResultsList[] partialHits, int size, Boolean combiningOption){
 		List<PaperHit> combinedResults= new ArrayList<PaperHit>();
 		int numberOfHits= 0;
+		if (combiningOption){
+			for (int i=0; i<partialHits.length; i++){
+				List<PaperHit> hits= partialHits[i].getPaperHits();
+				if (!hits.isEmpty()){
+					if(!hits.get(0).getLang().equals("EN")){
+						for (int k=0; k<hits.size(); k++){
+							hits.get(k).setRelevanceScore(1.1f*hits.get(k).getRelevanceScore());
+						}
+						partialHits[i].setPaperHits(hits);
+					}
+				}
+			}
+		}
 		for (int i=0; i<size; i++){
 			if (!partialHits[i].isEmptyPaperHits()){
 				combinedResults.addAll(partialHits[i].getPaperHits());
@@ -131,7 +324,7 @@ public class CrossLanguageQueryHandler extends QueryHandler{
 		postProcessedTerms.initialize(postProcessedQueries.getTerms(), postProcessedQueries.getLangs());
 		resultingList.setQueryTerms(postProcessedTerms);
 		
-		//Query refinement aims to re-run from this stage...
+		//User query refinement re-runs the processing from this stage...
 		/**Forth step: Searching in every index*/
 		int numLangs=postProcessedQueries.getLangs().size();
 		ResultsList [] partialHits= new ResultsList[numLangs];

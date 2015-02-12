@@ -134,6 +134,10 @@ public class PerLanguageIndexer extends Indexer {
 						 	* A Lucene Document variable is declared.
 							*/	
 
+							/**The following replacements are not really needed, 
+							 * since Lucene takes care of them, but since we don that
+							 * for the QueryTerms that can be from LSI, it's better 
+							 * to do this.*/
 							result=result.replace(".", " ");
 							result=result.replace(",", " ");
 							result=result.replace(":", " ");
@@ -144,6 +148,8 @@ public class PerLanguageIndexer extends Indexer {
 							result=result.replace("[", " ");
 							result=result.replace("]", " ");
 							result=result.replace(" ", "");
+							result=result.replace("", " ");
+							result=result.replace("_", " ");
 							result=result.toLowerCase();
 							
 							Document luceneDoc= new Document();

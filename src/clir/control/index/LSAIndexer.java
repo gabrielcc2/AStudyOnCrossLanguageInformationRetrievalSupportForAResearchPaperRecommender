@@ -268,7 +268,10 @@ public class LSAIndexer extends Indexer {
 								
 										}
 										
+										
 										String featuresToIndex=title+" "+abstractString;
+										
+										/**This house-keeping is needed since we don't use Lucene's Analyzer for cleaning */
 										featuresToIndex=featuresToIndex.replace(".", " ");
 										featuresToIndex=featuresToIndex.replace(",", " ");
 										featuresToIndex=featuresToIndex.replace(":", " ");
@@ -280,6 +283,8 @@ public class LSAIndexer extends Indexer {
 										featuresToIndex=featuresToIndex.replace("]", " ");
 										featuresToIndex=featuresToIndex.replace("|", " ");
 										featuresToIndex=featuresToIndex.replace(" ", "");
+										featuresToIndex=featuresToIndex.replace("", " ");
+										featuresToIndex=featuresToIndex.replace("_", " ");
 										featuresToIndex=featuresToIndex.toLowerCase();
 										
 										String[] words= featuresToIndex.split(" ");

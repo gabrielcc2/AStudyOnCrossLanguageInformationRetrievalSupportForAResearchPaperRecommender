@@ -106,6 +106,8 @@ public class QueryTermsGenerator {
 							}
 						
 							if (title.length()>2){
+								/**This house-keeping is needed since we don't use Lucene's Analyzer for cleaning 
+								 * in the case of LSI*/
 								title=title.replace(".", " ");
 								title=title.replace(",", " ");
 								title=title.replace(":", " ");
@@ -117,6 +119,8 @@ public class QueryTermsGenerator {
 								title=title.replace("]", " ");
 								title=title.replace("|", " ");
 								title=title.replace(" ", "");
+								title=title.replace("", " ");
+								title=title.replace("_", " ");
 								title=title.toLowerCase();
 								result.addQueryTerm(title.toLowerCase(), lang);
 							}
