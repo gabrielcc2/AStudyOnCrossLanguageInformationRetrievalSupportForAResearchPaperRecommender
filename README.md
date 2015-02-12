@@ -31,3 +31,8 @@ Apart from surveying some available alternatives for implementing cross-language
 	PoS tagging for German and Spanish is included.
 	- Other pre-processing improvements.
 	- Other improvements at the point when results from different indexes are merged (i.e. boosting scores of hits in under-represented languages).
+
+Pending work:
+Check and upload code for GUI.
+Check and upload Moses model support.
+Create proper documentation (JavaDocs), including explanations on all the server configurations.
