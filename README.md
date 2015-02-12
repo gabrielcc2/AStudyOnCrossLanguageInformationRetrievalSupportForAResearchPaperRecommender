@@ -3,36 +3,48 @@ CLIR Tips
 
 In this repository are some files from a study on how to support cross-language recommendations for an existing research paper recommender system. 
 
-We focus on German, English and Spanish.
+We focused on German, English and Spanish.
 
-This was a project carried out in the University of Magdeburg Oct 2014-Jan 2015
+This was a project carried out in the University of Magdeburg Oct 2014-Feb 2015
 
 Overall the software consists of the following packages:
 
 Control: Classes that encapsuate the Business logic:
-	Mgmt sub-package: With classes LanguagesManager (Singleton in charge of the overall information on languages), 			 
-                                                         SpecificLanguageManager (allowing to manage the index and repository of a language) and 
-                                                         RecommendationsHandler (that generates the recommendations).
-	Index sub-package: With classes LSA indexer and Per-Language indexer.
-	Query sub-package: With classes: Query handler, per-language query handler and singletons: LSA query handler and CL query handler.
-	Querytermgen sub-package: Containing only the query term generator.
-	Utils sub-package: Containing the Translator handler singleton, allowing the use of Apertium, Google Translate and a Moses Language Model Server.
+	Main class, that starts the GUI or allows a console-run.
+	Mgmt sub-package: - LanguagesManager: Singleton in charge of the overall information on languages. 
+                          - SpecificLanguageManager: Singleton looks after index and repo of a given language.
+                          - RecommendationsHandler: Singleton that generates the recommendations.
+	Querytermgen sub-package: -Query term generator: Called by the RecommendationsHandler.
+	Index sub-package: - LSA indexer: LSA indexing.
+			   - Per-Language indexer: Lucene indexing.
+			   - Indexer: dummy super-class from which the 2 former inherit. 
+	Query sub-package: - Query handler: dummy super-class 
+			   - Per-language query handler
+			   - LSA query handler: Querying with LSA. 
+			   - CL query handler: Cross-language query handler. Implements optimizations.
+	Utils sub-package: - TranslationHandler: Singleton allowing to use translation services of Apertium, 					     Google Translate and/or Moses.
 
-        Model: Data classes, such as LanguageFolder (matching a language to its repository and index), PaperHit (items resulting from a query), 
-                                     ResultsList (list of results of a query), Query Terms and IndexedDocLSA.
-
-        View: GUI related classes.
+Model: Data classes:
+	- LanguageFolder: Matches a language to its repository and index.
+	- PaperHit: Resulting item from a query.
+	- ResultsList: List of resulting items from a query.
+	- QueryTerms: Encapsulates a query string over each language, or one string that combines all languages. 
+	- IndexedDocLSA: Data for indexing a document in LSA.
+View: GUI related classes.
 
 Apart from surveying some available alternatives for implementing cross-language information retrieval, the aim of this project was to allow the comparison of different approaches to the cross-language support:
 
-- Latent Semantic Analysis (with user provided cross-language training data)
+- Latent Semantic Analysis (based on user provided cross-language training data)
 - Traditional indexing (with Lucene) and automated query translation (using one of several systems: Apertium, Google Translate API and Moses), further improved by:
 	- User mediated query refinement
-	- Translation post-processing: synonym adding through ontologies after tagging with Stanfords PoS tagger. Only MultiWordNet for english was used, but its spanish section and GermaNet could be potentially used as well (after agreements with author's institutions). Sense disambiguation for this task not supported (most common sense is chosen so far), but it could be added, also some recognition for searching phrases as opposed to words can also be of use.
-	Note: This service is also hard to port since it relies on a MySQL server running a DB with the ontology.
-	PoS tagging for German and Spanish is included.
+	- Translation post-processing: query expansion, by adding synonyms found in ontologies (after tagging with Stanfords PoS tagger) was tested. In the end only MultiWordNet support for English was included, but its Spanish section and GermaNet could be potentially used as well for those languages (after reaching agreements with author's institutions).
 	- Other pre-processing improvements.
 	- Other improvements at the point when results from different indexes are merged (i.e. boosting scores of hits in under-represented languages).
+
+Additional notes:
+Sense disambiguation for the query expansion was not supported (most common sense is chosen so far), but it could be added, also some recognition for searching phrases as opposed to words could also be an useful improvement over our approach.
+
+Code for PoS tagging German and Spanish is included.
 
 List of some open-sourced resources used:
 
@@ -44,17 +56,18 @@ Apache Commons Math: https://commons.apache.org/proper/commons-math/
 
 For automated translation:
 Apertium Java Api: https://github.com/rmtheis/apertium-translator-java-api
-Apertium Service: http://api.apertium.org/register.jsp
+Apertium Service: http://api.apertium.org/
 
 Google Translate Api: https://code.google.com/p/google-api-translate-java/
 Google Service: https://cloud.google.com/translate/docs
 
-MOSES statistical machine translation system,: http://www.statmt.org/moses/
+MOSES statistical machine translation system: http://www.statmt.org/moses/
 Aditionally Giza++ statistical translation models toolkit was required for alignment: https://code.google.com/p/giza-pp/
-Corpora used (still to be defined):
+Corpora used (still to be defined).
 
 For PoS tagging in all languages:
 Stanford's PoS tagger: http://nlp.stanford.edu/software/tagger.shtml
+
 And specific PoS models: 
 English model: 
 wsj-0-18-bidirectional-distsim.tagger
@@ -89,7 +102,7 @@ Spanish model (not used in current version):
 Spanish-distsim.tagger
 
 For adding synonym sets as a form of post-processing query expansion:
-MultiWordNet: http://multiwordnet.fbk.eu/english/home.php (English ontology kindly provided by email). 
+MultiWordNet: http://multiwordnet.fbk.eu/english/home.php (English ontology kindly provided by email).
 Additionally we used a MySQL server running a database with the ontologies provided in .sql format.
 
 For indexing and parsing:
@@ -97,7 +110,10 @@ Lucene: http://lucene.apache.org/
 
 Information on specific versions, etc, can be checked in the code itself.
 
-Pending work:
+Upcoming work:
 Check and upload code for GUI.
 Check and upload Moses model support.
 Create proper documentation (JavaDocs), including explanations on all the server configurations.
+
+Future work:
+Facilitate the server configurations so as to make this system more portable.
