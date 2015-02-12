@@ -114,6 +114,9 @@ Upcoming work:
 Check and upload code for GUI.
 Check and upload Moses model support.
 Create proper documentation (JavaDocs), including explanations on all the server configurations.
+Evaluation.
 
 Future work:
-Facilitate the server configurations so as to make this system more portable.
+Facilitate the server configurations so as to make the system more portable. 
+Optionally study other configurations. Additional improvements with semantics and NLP, as well as extensions to the current LSA model, would be of interest.
+Finally porting and adapting to an existing domain might be fruitful. 
