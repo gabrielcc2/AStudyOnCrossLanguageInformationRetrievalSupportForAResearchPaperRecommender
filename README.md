@@ -10,9 +10,9 @@ This was a project carried out in the University of Magdeburg Oct 2014-Feb 2015
 Apart from surveying some available alternatives for implementing cross-language information retrieval, the aim of this project was to allow the comparison of different approaches to the cross-language support:
 
 - Latent Semantic Analysis (based on user provided cross-language training data)
-- Traditional indexing (with Lucene) and automated query translation (using one of several systems: Apertium, Google Translate API and Moses), further improved by:
+- Traditional per-language indexing (with Lucene) and automated query translation (using one of several systems: Apertium, Google Translate API and Moses), further improved by:
 	- User mediated query refinement
-	- Translation post-processing: query expansion, by adding synonyms found in ontologies (after tagging with Stanfords PoS tagger) was tested. In the end only MultiWordNet support for English was included. For Spanish MultiWordNet could be also used, and GermaNet for the German language (this requires an agreement with the author's).
+	- Translation post-processing: Query expansion, by adding synonyms found in ontologies (after tagging with Stanfords PoS tagger) was tested. In the end only support for using MultiWordNet over its English resources was included. For Spanish, MultiWordNet could be also used, and GermaNet (http://www.sfs.uni-tuebingen.de/GermaNet/) for the German language (this requires an agreement with the author's).
 	- Additional improvements at the point when results from different indexes are merged (i.e. boosting scores of hits in under-represented languages).
 	- Other pre-processing improvements.
 	
@@ -63,6 +63,8 @@ Data classes:
 
 View package: 
 GUI related classes.
+
+More information in the JavaDocs.
 
 List of some open-source resources used:
 ===============
