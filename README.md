@@ -9,7 +9,7 @@ This was a project carried out in the University of Magdeburg Oct 2014-Feb 2015
 
 Apart from surveying some available alternatives for implementing cross-language information retrieval, the aim of this project was to allow the comparison of different approaches to the cross-language support:
 
-- Latent Semantic Analysis (based on user provided cross-language training data)
+- Latent Semantic Analysis (based on user provided cross-language training data + a controlled vocabulary approach during indexing)
 - Traditional per-language indexing (with Lucene) and automated query translation (using one of several systems: Apertium, Google Translate API and Moses), further improved by:
 	- User mediated query refinement
 	- Translation post-processing: Query expansion, by adding synonyms found in ontologies (after tagging with Stanfords PoS tagger) was tested. In the end only support for using MultiWordNet over its English resources was included. For Spanish, MultiWordNet could be also used, and GermaNet (http://www.sfs.uni-tuebingen.de/GermaNet/) for the German language (this requires an agreement with the author's).
@@ -140,12 +140,15 @@ Upcoming work:
 - Evaluation.
 - Create proper documentation (JavaDocs), including explanations on all the server configurations.
 - Check and upload Moses model support, add this to documentation.
+- Extend LSI to accept new terms during indexing. Improve training data.
 
 Future work:
 ===============
 
+- Comprehensive evaluation under a more realistic scenario, using an acceptable dataset.
 - Facilitate the server configurations so as to make the system more portable. 
 - Adapting to an existing domain and testing infrastructure might be fruitful, specially since it would provide a clearer way for evaluating benefits and shortcomings of the methods used. 
+- Decide on valid LSA training-data.
 - Optionally other configurations could be studied. The use of aditional information available to the recommender system, as a way of supporting translation-disambiguation, could be of interest for it represents a stronger embedding of the system with the translation services. An inter-lingual net for supporting translation, while coupled with good word-sense predictors, might be of interest as well, since it might lead to better translations and more accurate post-processing. Additional improvements with semantics and NLP, as well as extensions to the current LSA model, would be of interest too.
 - The study of embedding the cross-language service into the inner workings of the recommender might be also of interest. 
 - Finally, with a basis on our work and the large amount of technologies available, aditional cross-language services could be further built for users, such as cross-languge query suggestions,  providing multi-lingual explanations for the cross-language recommendations, etc.
