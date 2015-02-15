@@ -12,14 +12,14 @@ Apart from surveying some available alternatives for implementing cross-language
 - Latent Semantic Analysis (based on user provided cross-language training data + a controlled vocabulary approach during indexing)
 - Traditional per-language indexing (with Lucene) and automated query translation (using one of several systems: Apertium, Google Translate API and Moses), further improved by:
 	- User mediated query refinement
-	- Translation post-processing: Query expansion, by adding synonyms found in ontologies (after tagging with Stanfords PoS tagger) was tested. In the end only support for using MultiWordNet over its English resources was included. For Spanish, MultiWordNet could be also used, and GermaNet (http://www.sfs.uni-tuebingen.de/GermaNet/) for the German language (this requires an agreement with the author's).
+	- Translation post-processing: Query expansion, by adding synonyms found in ontologies (after tagging with Stanfords PoS tagger) was tested. In the end only support for using MultiWordNet over its English resources was included. For Spanish, MultiWordNet could be also used, and GermaNet (http://www.sfs.uni-tuebingen.de/GermaNet/) for the German language (this requires an agreement with the author's). 
 	- Additional improvements at the point when results from different indexes are merged (i.e. boosting scores of hits in under-represented languages).
 	- Other pre-processing improvements.
 	
 
 Additional notes:
+- At this stage our system represents a simple framework that could be used as a starting-point for comparing cross-language services happening at different processing stages, and their contribution to the end results.
 - Sense disambiguation for the query expansion was not supported (most common sense is chosen so far), but it could be added. Some recognition for searching phrases as opposed to words could also be a useful improvement to our approach.
-
 - Code for PoS tagging German and Spanish is included but not used.
 
 Code structure:
@@ -134,18 +134,27 @@ For indexing and parsing:
 
 Information on specific versions, authors, etc., can be found in the repository itself.
 
+Issues:
+===============
+- Portability needs improvement: Facilitate the server configurations so as to make the system more portable. 
+- Field extraction with PDF Inspector must be improved. Try to correct buggy behaviour. Consider indexing other fields and benefits/shortcomings. Some fields could be citations, keywords, authors, etc.
+- Observed issues while using Apertium (one translation request EN->ES or ES->EN stalls from time to time).
+
 Future work:
 ===============
-- Check and upload Moses model support, add this to documentation.
-- Extend LSI to accept new terms during indexing. Improve training data.
-- Facilitate the server configurations so as to make the system more portable. 
+- Extend LSI to accept new terms during indexing. Configure with realistic training data. Evaluate time for querying and improve if needed.
+- Check and upload Moses model support, add this to documentation. Evaluate possibilities for using extended features.
+- Use WordNets from other languages and extend with word-sense predictors. This might lead to more accurate terms. 
+- Test other boost-on-merge options.
+- Consider pre-processing alternatives for each supported language.
 - Comprehensive evaluation under a more realistic configuration + testing scheme.
+- Additional improvements to the existing approaches with semantics and NLP, as well as extensions to the current LSA model, would be of interest too.
 
 - Optionally other configurations could be studied. 
-	- The use of aditional information available to the recommender system, as a way of supporting translation-disambiguation, could be of interest for it represents a stronger embedding of the system with the translation services, and a benefit almost exclusive to cross-language recommender systems (and not of cross-language information retrieval). 
-	- An inter-lingual net for supporting translation, while coupled with good word-sense predictors, might be of interest as well, since it might lead to better translations and more accurate post-processing. 
-	- Additional improvements to the proposed approaches with semantics and NLP, as well as extensions to the current LSA model, would be of interest too.
-
-- The study of embedding the cross-language service into the inner workings of the recommender might be also of interest. 
+	- The use of aditional information available to the recommender system, as a way of supporting translation-disambiguation, could be of interest for it represents a stronger embedding of the system with the translation services, and a benefit almost exclusive to cross-language recommender systems (since, by comparison, most cross-language information retrieval systems rely on much more limited information for disambiguation). Several approaches could be tested:
+		- A less embedded approach would be to provide the translation services with a larger body of text and then extract only the parts that are required. 
+		- Also with Moses a bag-of-words approach could be used for it to return potential, instead of exact, translations. Each of these words can be assigned an associated weight, which serves to signal the most likely translation to the document retriever or the indexer. The weights can be further tuned with a knowledge or corpus-based approach. 
+		- Inter-lingual nets coupled with good word-sense predictors, could be considered as well.
+- Embedding the cross-language aspects into the inner workings of recommender systems. For this our query definition has to be extended so it includes any additional data that the recommender system might use needing translation. The matching itself can be performed in any way the recommender system does, and finally the merging can be adapted to suit the existing system. This could be a fruitful area of research. 
 
 - Finally, with a basis on our work and the large amount of technologies available, aditional cross-language services could be further built for users, such as cross-languge query suggestions,  providing multi-lingual explanations for the cross-language recommendations, etc.

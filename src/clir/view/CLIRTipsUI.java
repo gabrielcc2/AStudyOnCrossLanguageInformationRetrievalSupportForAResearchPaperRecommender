@@ -1149,17 +1149,19 @@ public class CLIRTipsUI extends javax.swing.JFrame {
     		    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     		    private void initComponents(String germanTerms, String englishTerms, String spanishTerms, String interfaceLanguage) {
 
-    		        jScrollPane3 = new javax.swing.JScrollPane();
-    		        jLabel1 = new javax.swing.JLabel();
-    		        jButton1 = new javax.swing.JButton();
-    		        jScrollPane2 = new javax.swing.JScrollPane();
-    		        jTextPane1 = new javax.swing.JTextPane();
-    		        jLabel2 = new javax.swing.JLabel();
-    		        jScrollPane5 = new javax.swing.JScrollPane();
-    		        jTextPane4 = new javax.swing.JTextPane();
-    		        jLabel5 = new javax.swing.JLabel();
-    		        jScrollPane7 = new javax.swing.JScrollPane();
-    		        jTextPane6 = new javax.swing.JTextPane();
+
+    		        jButton1 = new javax.swing.JButton();//Ok
+    		    
+
+    		        jLabel2 = new javax.swing.JLabel(); //DE
+    		        jLabel1 = new javax.swing.JLabel();//EN
+    		        jLabel5 = new javax.swing.JLabel(); //ES
+    		        jTextArea1 = new javax.swing.JTextArea(); //GermanTerms
+    		        jScrollPane1 = new javax.swing.JScrollPane();//Scroll for GermanTerms
+    		        jTextArea3 = new javax.swing.JTextArea(); //EnglishTerms
+    		        jScrollPane9 = new javax.swing.JScrollPane();//Scroll for EnglishTerms
+    		        jTextArea4 = new javax.swing.JTextArea();   //SpanishTerms 		        
+       		        jScrollPane10 = new javax.swing.JScrollPane(); //Scroll for SpanishTerms
     		        undoManagerGermanTerms= new UndoManager();
     		        undoManagerSpanishTerms= new UndoManager();
     		        undoManagerEnglishTerms= new UndoManager();
@@ -1186,6 +1188,16 @@ public class CLIRTipsUI extends javax.swing.JFrame {
     		        }
     		        
 
+    		        jTextArea1.setColumns(20);
+    		        jTextArea1.setRows(5);
+    		        jTextArea1.setLineWrap(true);
+    		        jTextArea3.setColumns(20);
+    		        jTextArea3.setRows(5);
+    		        jTextArea3.setLineWrap(true);
+    		        jTextArea4.setColumns(20);
+    		        jTextArea4.setRows(5);
+    		        jTextArea4.setLineWrap(true);
+
     		        
     		        jButton1.setText("Ok");
     		        jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -1193,16 +1205,16 @@ public class CLIRTipsUI extends javax.swing.JFrame {
     		        	public void actionPerformed(java.awt.event.ActionEvent evt) {
     		        		  List<String> newTerms = new ArrayList<String>();
     		        		  List<String> langs= new ArrayList<String>();
-    		        		  if (jTextPane4.getText().length()>1){
-    		        			  newTerms.add(jTextPane4.getText());
+    		        		  if (jTextArea1.getText().length()>1){
+    		        			  newTerms.add(jTextArea1.getText());
     		        			  langs.add("DE");
     		        		  }
-    		        		  if (jTextPane1.getText().length()>1){
-    		        			  newTerms.add(jTextPane1.getText());
+    		        		  if (jTextArea3.getText().length()>1){
+    		        			  newTerms.add(jTextArea3.getText());
     		        			  langs.add("EN");
     		        		  }
-    		        		  if (jTextPane6.getText().length()>1){
-    		        			  newTerms.add(jTextPane6.getText());
+    		        		  if (jTextArea4.getText().length()>1){
+    		        			  newTerms.add(jTextArea4.getText());
     		        			  langs.add("ES");
     		        		  }
     		        		  QueryTerms aux = new QueryTerms(newTerms, langs);
@@ -1223,8 +1235,9 @@ public class CLIRTipsUI extends javax.swing.JFrame {
     		              }
     		          });
     		        
-    		        jTextPane4.setText(germanTerms);
-    		        jTextPane4.addMouseListener(new MouseAdapter() {  //Allowing to cut, copy and paste text...
+    		        jTextArea1.setText(germanTerms);
+    		        jTextArea1.setCaretPosition(0);
+    		        jTextArea1.addMouseListener(new MouseAdapter() {  //Allowing to cut, copy and paste text...
     		            public void mouseReleased(final MouseEvent e) { 
     		                if (e.isPopupTrigger() || (e.getModifiers() & InputEvent.BUTTON3_MASK) == InputEvent.BUTTON3_MASK
     		                		){  
@@ -1248,7 +1261,7 @@ public class CLIRTipsUI extends javax.swing.JFrame {
     		            }  
     		        });
     		        /**Adding undo and redo to query*/
-    		        Document germanTermsAsDoc= jTextPane4.getDocument();
+    		        Document germanTermsAsDoc= jTextArea1.getDocument();
     		        germanTermsAsDoc.addUndoableEditListener(new UndoableEditListener() {
     		            @Override
     		            public void undoableEditHappened(UndoableEditEvent e) {
@@ -1256,8 +1269,8 @@ public class CLIRTipsUI extends javax.swing.JFrame {
 
     		            }
     		        });
-    		        InputMap im = jTextPane4.getInputMap(JComponent.WHEN_FOCUSED);
-    		        ActionMap am = jTextPane4.getActionMap();
+    		        InputMap im = jTextArea1.getInputMap(JComponent.WHEN_FOCUSED);
+    		        ActionMap am = jTextArea1.getActionMap();
 
     		        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_Z, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()), "Undo");
     		        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_Y, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()), "Redo");
@@ -1286,10 +1299,11 @@ public class CLIRTipsUI extends javax.swing.JFrame {
     		                }
     		            }
     		        });
-    		        jScrollPane5.setViewportView(jTextPane4);
+    		        jScrollPane1.setViewportView(jTextArea1);
 
-    		        jTextPane1.setText(englishTerms);
-    		        jTextPane1.addMouseListener(new MouseAdapter() {  //Allowing to cut, copy and paste text...
+    		        jTextArea3.setText(englishTerms);
+    		        jTextArea3.setCaretPosition(0);
+    		        jTextArea3.addMouseListener(new MouseAdapter() {  //Allowing to cut, copy and paste text...
     		            public void mouseReleased(final MouseEvent e) { 
     		                if (e.isPopupTrigger() || (e.getModifiers() & InputEvent.BUTTON3_MASK) == InputEvent.BUTTON3_MASK
     		                		){  
@@ -1313,7 +1327,7 @@ public class CLIRTipsUI extends javax.swing.JFrame {
     		            }  
     		        });
     		        /**Adding undo and redo to query*/
-    		        Document englishTermsAsDoc= jTextPane1.getDocument();
+    		        Document englishTermsAsDoc= jTextArea3.getDocument();
     		        englishTermsAsDoc.addUndoableEditListener(new UndoableEditListener() {
     		            @Override
     		            public void undoableEditHappened(UndoableEditEvent e) {
@@ -1321,8 +1335,8 @@ public class CLIRTipsUI extends javax.swing.JFrame {
 
     		            }
     		        });
-    		        InputMap im2 = jTextPane1.getInputMap(JComponent.WHEN_FOCUSED);
-    		        ActionMap am2 = jTextPane1.getActionMap();
+    		        InputMap im2 = jTextArea3.getInputMap(JComponent.WHEN_FOCUSED);
+    		        ActionMap am2 = jTextArea3.getActionMap();
 
     		        im2.put(KeyStroke.getKeyStroke(KeyEvent.VK_Z, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()), "Undo");
     		        im2.put(KeyStroke.getKeyStroke(KeyEvent.VK_Y, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()), "Redo");
@@ -1351,10 +1365,11 @@ public class CLIRTipsUI extends javax.swing.JFrame {
     		                }
     		            }
     		        });
-    		        jScrollPane2.setViewportView(jTextPane1);
+    		        jScrollPane9.setViewportView(jTextArea3);
 
-    		        jTextPane6.setText(spanishTerms);
-    		        jTextPane6.addMouseListener(new MouseAdapter() {  //Allowing to cut, copy and paste text...
+    		        jTextArea4.setText(spanishTerms);
+    		        jTextArea4.setCaretPosition(0);
+    		        jTextArea4.addMouseListener(new MouseAdapter() {  //Allowing to cut, copy and paste text...
     		            public void mouseReleased(final MouseEvent e) { 
     		                if (e.isPopupTrigger() || (e.getModifiers() & InputEvent.BUTTON3_MASK) == InputEvent.BUTTON3_MASK
     		                		){  
@@ -1378,7 +1393,7 @@ public class CLIRTipsUI extends javax.swing.JFrame {
     		            }  
     		        });
     		        /**Adding undo and redo to query*/
-    		        Document spanishTermsAsDoc= jTextPane6.getDocument();
+    		        Document spanishTermsAsDoc= jTextArea4.getDocument();
     		        spanishTermsAsDoc.addUndoableEditListener(new UndoableEditListener() {
     		            @Override
     		            public void undoableEditHappened(UndoableEditEvent e) {
@@ -1386,8 +1401,8 @@ public class CLIRTipsUI extends javax.swing.JFrame {
 
     		            }
     		        });
-    		        InputMap im3 = jTextPane6.getInputMap(JComponent.WHEN_FOCUSED);
-    		        ActionMap am3 = jTextPane6.getActionMap();
+    		        InputMap im3 = jTextArea4.getInputMap(JComponent.WHEN_FOCUSED);
+    		        ActionMap am3 = jTextArea4.getActionMap();
 
     		        im3.put(KeyStroke.getKeyStroke(KeyEvent.VK_Z, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()), "Undo");
     		        im3.put(KeyStroke.getKeyStroke(KeyEvent.VK_Y, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()), "Redo");
@@ -1416,29 +1431,27 @@ public class CLIRTipsUI extends javax.swing.JFrame {
     		                }
     		            }
     		        });
-    		        jScrollPane7.setViewportView(jTextPane6);
+    		        jScrollPane10.setViewportView(jTextArea4);
 
     		        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
     		        getContentPane().setLayout(layout);
     		        layout.setHorizontalGroup(
     		            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
     		            .addGroup(layout.createSequentialGroup()
+    		                .addContainerGap()
     		                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+    		                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+    		                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 585, Short.MAX_VALUE)
     		                    .addGroup(layout.createSequentialGroup()
-    		                        .addGap(6, 6, 6)
     		                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-    		                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-    		                            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 377, Short.MAX_VALUE)
-    		                            .addComponent(jLabel2)))
-    		                    .addGroup(layout.createSequentialGroup()
-    		                        .addContainerGap()
-    		                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-    		                            .addComponent(jScrollPane7)
-    		                            .addComponent(jScrollPane2)
-    		                            .addComponent(jScrollPane5)))
-    		                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-    		                        .addGap(0, 0, Short.MAX_VALUE)
-    		                        .addComponent(jButton1)))
+    		                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+    		                                .addComponent(jButton1)
+    		                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+    		                                    .addComponent(jLabel2)
+    		                                    .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 574, javax.swing.GroupLayout.PREFERRED_SIZE)
+    		                                    .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 574, javax.swing.GroupLayout.PREFERRED_SIZE)))
+    		                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 574, javax.swing.GroupLayout.PREFERRED_SIZE))
+    		                        .addGap(0, 0, Short.MAX_VALUE)))
     		                .addContainerGap())
     		        );
     		        layout.setVerticalGroup(
@@ -1447,15 +1460,15 @@ public class CLIRTipsUI extends javax.swing.JFrame {
     		                .addContainerGap()
     		                .addComponent(jLabel2)
     		                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-    		                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-    		                .addGap(4, 4, 4)
+    		                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+    		                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
     		                .addComponent(jLabel1)
     		                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-    		                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+    		                .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
     		                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
     		                .addComponent(jLabel5)
     		                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-    		                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+    		                .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
     		                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
     		                .addComponent(jButton1)
     		                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -1470,14 +1483,16 @@ public class CLIRTipsUI extends javax.swing.JFrame {
     		    private javax.swing.JLabel jLabel1;
     		    private javax.swing.JLabel jLabel2;
     		    private javax.swing.JLabel jLabel5;
-    		    private javax.swing.JScrollPane jScrollPane2;
-    		    private javax.swing.JScrollPane jScrollPane5;
-    		    private javax.swing.JScrollPane jScrollPane7;
-    		    private javax.swing.JTextPane jTextPane1;
-    		    private javax.swing.JTextPane jTextPane4;
-    		    private javax.swing.JTextPane jTextPane6;
+    		    private javax.swing.JScrollPane jScrollPane9;
+    		    private javax.swing.JScrollPane jScrollPane1;
+    		    private javax.swing.JScrollPane jScrollPane10;
+    		    private javax.swing.JTextArea jTextArea3;
+    		    private javax.swing.JTextArea jTextArea1;
+    		    private javax.swing.JTextArea jTextArea4;
     		    // End of variables declaration                   
-    		}
+
+
+    	  }
     	  
     	    java.awt.EventQueue.invokeLater(new Runnable() {
                 public void run() {
