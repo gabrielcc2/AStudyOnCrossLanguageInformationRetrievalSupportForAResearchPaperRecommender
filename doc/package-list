@@ -1,0 +1,8 @@
+clir.control
+clir.control.index
+clir.control.mgmt
+clir.control.query
+clir.control.querytermgen
+clir.control.utils
+clir.model
+clir.view

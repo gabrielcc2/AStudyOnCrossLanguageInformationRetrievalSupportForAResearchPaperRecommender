@@ -7,6 +7,7 @@ import com.google.api.GoogleAPIException;
 import com.google.api.translate.Language;
 import com.google.api.translate.Translate;
 
+// TODO: Auto-generated Javadoc
 /*Singleton class that handles translation. 
  * It uses different services: Apertium, Google Translate Api and a Moses Language Model. All of them 
  * are provided by running servers. Only Moses is configured locally.
@@ -15,25 +16,44 @@ import com.google.api.translate.Translate;
  * the use of the service is free, this shouldnt cause any problem.
  * */
 
+/**
+ * The Class TranslationHandler. Manages the translation services with Apertium, Google and Moses.
+ * 
+ * @author Gabriel
+ * 
+ */
 public class TranslationHandler {
-	private static String REFERRER="https://github.com/gabrielcc2";
-	private static String GOOGLE_KEY="AIzaSyCm2vYySiTwWENU3J2YtCulHoAJasKF1ps";
 	
+	/** The referrer. */
+	private static String REFERRER="https://github.com/gabrielcc2";
+	
+	/** The google key. */
+	private static String GOOGLE_KEY="_";
+	
+	/** The verbose. */
 	private Boolean VERBOSE=true;
+	
+	/** The debug. */
 	@SuppressWarnings("unused")
 	private Boolean DEBUG=true;
 	
-	/**Singleton instance of type TranslationHandler */
+	/** Singleton instance of type TranslationHandler. */
 	private static TranslationHandler handler = null;
 	
-	/**Functions */
+	/**
+	 * Functions.
+	 */
 	
 	/**Protected constructor function, to defeat instantiation. */
 	protected TranslationHandler(){
 		 // Exists only to defeat instantiation.
 	}
 	
-	/**getInstance function, for singleton use*/
+	/**
+	 * getInstance function, for singleton use.
+	 *
+	 * @return single instance of TranslationHandler
+	 */
 	public static TranslationHandler getInstance(){
 		if (handler==null){
 			handler= new TranslationHandler();
@@ -41,6 +61,15 @@ public class TranslationHandler {
 		return handler;
 	}
 
+	/**
+	 * Translate.
+	 *
+	 * @param config the config
+	 * @param queryStr the query str
+	 * @param Lang1 the lang1
+	 * @param Lang2 the lang2
+	 * @return the string
+	 */
 	public String translate(String config, String queryStr, String Lang1, String Lang2){
 		String translatedText="";
 		if (config.equals("apertium")){

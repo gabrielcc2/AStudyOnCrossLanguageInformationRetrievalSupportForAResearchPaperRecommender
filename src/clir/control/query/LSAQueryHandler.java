@@ -10,18 +10,35 @@ import clir.control.mgmt.LanguagesManager;
 import clir.model.IndexedDocLSA;
 import clir.model.PaperHit;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class LSAQueryHandler.
+ * 
+ * Implements querying with Latent Semantic Indexing. Implemented as a singleton.
+ * 
+ * Apache commons math used here.
+ * 
+ * @author Gabriel
+ */
 public class LSAQueryHandler extends QueryHandler {
-	/**Singleton instance of type LSAQueryHandler */
+	
+	/** Singleton instance of type LSAQueryHandler. */
 	private static LSAQueryHandler handler = null;
 	
-	/**Functions */
+	/**
+	 * Functions.
+	 */
 	
 	/**Protected constructor function, to defeat instantiation. */
 	protected LSAQueryHandler(){
 		 // Exists only to defeat instantiation.
 	}
 	
-	/**getInstance function, for singleton use*/
+	/**
+	 * getInstance function, for singleton use.
+	 *
+	 * @return single instance of LSAQueryHandler
+	 */
 	public static LSAQueryHandler getInstance(){
 		if (handler==null){
 			handler= new LSAQueryHandler();
@@ -29,11 +46,21 @@ public class LSAQueryHandler extends QueryHandler {
 		return handler;
 	}
 	
-	public List<PaperHit> runQuery(List<String> queryLanguages, String query, int numExpectedResults){
+	/**
+	 * Run query.
+	 *
+	 * @param expectedLanguages the expected languages
+	 * @param query the query
+	 * @param numExpectedResults the num expected results
+	 * @return the list
+	 */
+	public List<PaperHit> runQuery(List<String> expectedLanguages, String query, int numExpectedResults){
 		List<PaperHit> results = new ArrayList<PaperHit>();
 		List<String> termsArray = new ArrayList<String>();
 		int numSemanticDimensions=0;
-		String indexFolder=LanguagesManager.getInstance().getIndexFolderLSA(queryLanguages);
+		List<String> langsSupported= new ArrayList<String>();
+		langsSupported.addAll(LanguagesManager.getInstance().getLanguagesSupported());
+		String indexFolder=LanguagesManager.getInstance().getIndexFolderLSA(langsSupported);
 		BufferedReader br;
 		try {
 			br = new BufferedReader(new FileReader(indexFolder+"/terms.txt"));
@@ -137,35 +164,53 @@ public class LSAQueryHandler extends QueryHandler {
 			RealMatrix qnew= qt.multiply(u).multiply(inverseS);//A row of numSemanticDimensions columns.
 
 			double[][] dMatrix=null;
-			BufferedReader br5;
-			int numDocs=0;
+
 			List<IndexedDocLSA> indexedDocs = new ArrayList<IndexedDocLSA>();
+			
+			BufferedReader br6;
+			int numDocs=0;
+			try {
+				br6 = new BufferedReader(new FileReader(indexFolder+"/d.txt"));
+				String line = null;
+				while ((line = br6.readLine()) != null) {
+					String [] splitted= line.split("§");
+					if (expectedLanguages.contains(splitted[2])){
+						numDocs++;
+					}
+				}
+				br6.close();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			BufferedReader br5;
 			try {
 				br5 = new BufferedReader(new FileReader(indexFolder+"/d.txt"));
 				String line = null;
 				int currentRow=0;
-				if((line = br5.readLine()) != null) {
-					numDocs= Integer.valueOf(line.split(":")[1].trim());
-				}
 				dMatrix= new double[numDocs][numSemanticDimensions];//Each row is a document
 				while ((line = br5.readLine()) != null) {
 					String [] splitted= line.split("§");
-					IndexedDocLSA doc = new IndexedDocLSA(numSemanticDimensions);
-					doc.setTitle(splitted[0]);
-					doc.setUrl(splitted[1]);
-					doc.setLang(splitted[2]);
-					String [] splittedValues = splitted[3].split(" ");
-					for (int k=0; k<numSemanticDimensions; k++){
-						dMatrix[currentRow][k]=Double.valueOf(splittedValues[k]);
+					if (expectedLanguages.contains(splitted[2])){
+						IndexedDocLSA doc = new IndexedDocLSA(numSemanticDimensions);
+						doc.setTitle(splitted[0]);
+						doc.setUrl(splitted[1]);
+						doc.setLang(splitted[2]);
+						String [] splittedValues = splitted[3].split(" ");
+						for (int k=0; k<numSemanticDimensions; k++){
+							dMatrix[currentRow][k]=Double.valueOf(splittedValues[k]);
+						}
+						currentRow++;
+						indexedDocs.add(doc);	
 					}
-					currentRow++;
-					indexedDocs.add(doc);
 				}
 				br5.close();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+						
 			int numResults;
 			if (numDocs>numExpectedResults){
 				numResults=numExpectedResults;
@@ -209,6 +254,7 @@ public class LSAQueryHandler extends QueryHandler {
 		                  } 
 		            } 
 		      } 
+		     
 		     for (int i=0; i<numResults; i++){
 		    	 int indexOfDoc=indexesToRelevanceScores[i];
 		    	 PaperHit hit= new PaperHit(i+1, indexedDocs.get(indexOfDoc).getTitle() ,

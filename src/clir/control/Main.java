@@ -1,12 +1,15 @@
 package clir.control;
 
-
+import java.util.ArrayList;
+import java.util.List;
 
 import clir.control.mgmt.LanguagesManager;
 import clir.control.mgmt.RecommendationsHandler;
 import clir.model.ResultsList;
+import clir.view.CLIRTipsUI;
 
 
+// TODO: Auto-generated Javadoc
 /**
  * 
  *          This is the main class of the project. The control flow of the
@@ -14,8 +17,8 @@ import clir.model.ResultsList;
  *          other methods here is not advised.
  *          <p>
  *          As shipped it only starts the GUI. But by accessing the source code it can be manually changed
- *          to allow console runs. This could be useful for debugging. If expecting messages on this
- *          scenario, DEBUG_MODE and VERBOSE can be set to true in the LanguageHandler and RecommendationsHandler classes.
+ *          to allow console runs. This could be useful for debugging and understanding the library. If expecting messages on this
+ *          scenario, DEBUG_MODE and VERBOSE can be set to true in the classes which are used.
  *          <p>
  *          
  * @author Gabriel
@@ -25,14 +28,21 @@ public class Main {
 	
 	/**
 	 * Main function. No arguments used as input.
-	 * 
-	 * */
+	 *
+	 * @param args the arguments
+	 */
 	public static void main(String[] args) {
 		
-		boolean useGUI=false;
+		boolean useGUI=true;
 		boolean useLSI=false;
 				
 		if (useGUI){
+
+			java.awt.EventQueue.invokeLater(new Runnable() {
+	            public void run() {
+	                new CLIRTipsUI().setVisible(true);
+	            }});
+
 		}
 		else{
 			
@@ -44,15 +54,25 @@ public class Main {
 						
 			/**Where we'll store the resulting recommendations...*/
 			ResultsList recommendations = new ResultsList();
-	
+			String folder="DEFAULT";
+			
 			if (useLSI){
 					/**The index is explicitly created for LSA*/
 					LanguagesManager.getInstance().createLSAIndex(LanguagesManager.getInstance().getLanguagesSupported(), 3);
 				
+					List<String> expectedLanguages= new ArrayList<String>();
+					expectedLanguages.add("EN");
+					
+					List<String> queryLanguages= new ArrayList<String>();
+					queryLanguages.add("ES");
+			//		optionalQuery.add("ES");
 					/**We ask for the recommendations*/
+					
 					recommendations.assign(
 							RecommendationsHandler.getInstance().getRecommendationsLSA(
-									LanguagesManager.getInstance().getLanguagesSupported(), 
+									queryLanguages,
+									expectedLanguages, 
+									folder,
 									10));
 			}
 			else{
@@ -65,16 +85,25 @@ public class Main {
 				
 					//	LanguagesManager.getInstance().getSpecificManager("DE").createIndex(); 
 					
+					List<String> expectedLanguages= new ArrayList<String>();
+					expectedLanguages.add("EN");
+					
+					List<String> queryLanguages= new ArrayList<String>();
+					queryLanguages.add("ES");
+					
+
 					/**We ask for the recommendations*/
 					recommendations.assign(
 							RecommendationsHandler.getInstance().getRecommendations(
-									LanguagesManager.getInstance().getLanguagesSupported(), 
+									queryLanguages,
+									expectedLanguages,
+									folder,
 									10, true, "google", true, true));
 			}
 			
 			/**Printing the recommendations*/
 			System.out.println("\n*****************************************************************");
-			if (recommendations.isEmptyPaperHits()){
+			if (recommendations.isEmpty()){
 				System.out.println("No recommendations found.");
 				System.out.println("*****************************************************************");
 			}

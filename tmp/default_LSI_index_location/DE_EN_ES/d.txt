@@ -1,0 +1,5 @@
+Cross-Language Information Retrieval Using PARAFAC2§/home/gabriel/Desktop/CLIRTips/tmp/default_EN_repository/clir.pdf§EN§0.09488472189143228 0.003678679524992816 2.499999999999999
+Exploring versus Exploiting when Learning User Models for Text Recommendation§/home/gabriel/Desktop/CLIRTips/tmp/default_EN_repository/exploring.pdf§EN§0.2064563614279746 0.631465709074339 -8.228237273208008E-16
+Speculative Execution Via Address Prediction and Data Prefetching§/home/gabriel/Desktop/CLIRTips/tmp/default_EN_repository/specexec.pdf§EN§0.08050726724786353 -0.05682694560571319 2.365790014234566E-17
+Fab: content-based, collaborative recommendation.(Special Section: Recommender Systems)§/home/gabriel/Desktop/CLIRTips/tmp/default_EN_repository/cbcf.pdf§EN§0.07465398208895131 0.33644772838129383 2.683316354636695E-16
+Desarrollo de un motor de paralelizaci on especulativa con soporte para aritm etica de punteros§/home/gabriel/Desktop/CLIRTips/tmp/default_ES_repository/espec_punteros.pdf§ES§1.1607281558314326 -0.01548594210845973 7.580072551638107E-20

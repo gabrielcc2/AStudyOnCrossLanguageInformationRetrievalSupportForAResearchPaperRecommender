@@ -64,7 +64,7 @@ Data classes:
 View package: 
 GUI related classes.
 
-More information in the JavaDocs.
+More information in the included JavaDocs and UML class-layout.
 
 List of some open-source resources used:
 ===============
@@ -88,6 +88,7 @@ For automated translation:
 
 For PoS tagging in all languages:
 - Stanford's PoS tagger: http://nlp.stanford.edu/software/tagger.shtml
+Note that this required Java 1.8+
 
 And specific PoS models: 
 English model: 
@@ -131,24 +132,20 @@ For adding synonym sets as a form of post-processing query expansion:
 For indexing and parsing:
 - Lucene: http://lucene.apache.org/
 
-Information on specific versions, authors, etc., can be checked through the code itself.
-
-Upcoming work:
-===============
-
-- Check and upload code for GUI.
-- Evaluation.
-- Create proper documentation (JavaDocs), including explanations on all the server configurations.
-- Check and upload Moses model support, add this to documentation.
-- Extend LSI to accept new terms during indexing. Improve training data.
+Information on specific versions, authors, etc., can be found in the repository itself.
 
 Future work:
 ===============
-
-- Comprehensive evaluation under a more realistic scenario, using an acceptable dataset.
+- Check and upload Moses model support, add this to documentation.
+- Extend LSI to accept new terms during indexing. Improve training data.
 - Facilitate the server configurations so as to make the system more portable. 
-- Adapting to an existing domain and testing infrastructure might be fruitful, specially since it would provide a clearer way for evaluating benefits and shortcomings of the methods used. 
-- Decide on valid LSA training-data.
-- Optionally other configurations could be studied. The use of aditional information available to the recommender system, as a way of supporting translation-disambiguation, could be of interest for it represents a stronger embedding of the system with the translation services. An inter-lingual net for supporting translation, while coupled with good word-sense predictors, might be of interest as well, since it might lead to better translations and more accurate post-processing. Additional improvements with semantics and NLP, as well as extensions to the current LSA model, would be of interest too.
+- Comprehensive evaluation under a more realistic configuration + testing scheme.
+
+- Optionally other configurations could be studied. 
+	- The use of aditional information available to the recommender system, as a way of supporting translation-disambiguation, could be of interest for it represents a stronger embedding of the system with the translation services, and a benefit almost exclusive to cross-language recommender systems (and not of cross-language information retrieval). 
+	- An inter-lingual net for supporting translation, while coupled with good word-sense predictors, might be of interest as well, since it might lead to better translations and more accurate post-processing. 
+	- Additional improvements to the proposed approaches with semantics and NLP, as well as extensions to the current LSA model, would be of interest too.
+
 - The study of embedding the cross-language service into the inner workings of the recommender might be also of interest. 
+
 - Finally, with a basis on our work and the large amount of technologies available, aditional cross-language services could be further built for users, such as cross-languge query suggestions,  providing multi-lingual explanations for the cross-language recommendations, etc.

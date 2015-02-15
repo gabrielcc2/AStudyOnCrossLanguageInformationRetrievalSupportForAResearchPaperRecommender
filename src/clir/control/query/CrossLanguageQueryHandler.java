@@ -25,14 +25,35 @@ import edu.stanford.nlp.ling.HasWord;
 import edu.stanford.nlp.ling.TaggedWord;
 import edu.stanford.nlp.tagger.maxent.MaxentTagger;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class CrossLanguageQueryHandler: Implements querying with automated query translation. Implemented as a singleton.
+ * 
+ * <p>  This processing is completed in 5 steps:
+ * <p>  First step: Pre-processing for each language
+ * <p>  Second step: Translation for each language pair
+ * <p>  Third step: Post-processing... 
+ * <p>  Forth step: Matching or searching in every index
+ * <p> Fifth step: Combining the results
+ * 
+ * Stanfords PoS taggers used here. Connection to MultiWordNet also established here. Translation with Apis from Apertium
+ * and Google are initiated here but implemented in clir.control.utils.TranslationHandler. Support for Moses translation
+ * belongs there as well.
+ * 
+ * @author Gabriel
+ * */
+
 public class CrossLanguageQueryHandler extends QueryHandler{
 	
-	/**Singleton instance of type CrossLanguageQueryHandler */
+	/** Singleton instance of type CrossLanguageQueryHandler. */
 	private static CrossLanguageQueryHandler handler = null;
 //	private static String DE_tagger="german-fast";
-	private static String EN_tagger="wsj-0-18-bidirectional-distsim";
+	/** The E n_tagger. */
+private static String EN_tagger="wsj-0-18-bidirectional-distsim";
 //	private static String ES_tagger="spanish-distsim";
-	/**Functions */
+	/**
+ * Functions.
+ */
 	
 	/**Protected constructor function, to defeat instantiation. */
 	protected CrossLanguageQueryHandler(){
@@ -40,7 +61,11 @@ public class CrossLanguageQueryHandler extends QueryHandler{
 		numberOfResults=DEFAULT_NUMBER_OF_RESULTS;
 	}
 	
-	/**getInstance function, for singleton use*/
+	/**
+	 * getInstance function, for singleton use.
+	 *
+	 * @return single instance of CrossLanguageQueryHandler
+	 */
 	public static CrossLanguageQueryHandler getInstance(){
 		if (handler==null){
 			handler= new CrossLanguageQueryHandler();
@@ -48,6 +73,13 @@ public class CrossLanguageQueryHandler extends QueryHandler{
 		return handler;
 	}
 	
+	/**
+	 * Pre process.
+	 *
+	 * @param query the query
+	 * @param preProcessingOption the pre processing option
+	 * @return the query terms
+	 */
 	private QueryTerms preProcess (QueryTerms query, Boolean preProcessingOption){
 	/*	List<String> langs= new ArrayList<String>();
 		langs.addAll(query.getLangs());
@@ -70,6 +102,13 @@ public class CrossLanguageQueryHandler extends QueryHandler{
 		return improvedTerms;
 	}
 
+	/**
+	 * Post process.
+	 *
+	 * @param query the query
+	 * @param postProcessingOption the post processing option
+	 * @return the query terms
+	 */
 	private QueryTerms postProcess (QueryTerms query, Boolean postProcessingOption){
 		List<String> langs= new ArrayList<String>();
 		langs.addAll(query.getLangs());
@@ -248,17 +287,38 @@ public class CrossLanguageQueryHandler extends QueryHandler{
 		}
 		return improvedTerms;
 	}
-	private QueryTerms getTranslations (QueryTerms query, String translationOption){
-		QueryTerms translatedTerms = new QueryTerms(query.getTerms(), query.getLangs());
-		for (int i=0; i<query.getLangs().size(); i++){
+	
+	/**
+	 * Gets the translations.
+	 *
+	 * @param expectedLanguages the expected languages
+	 * @param query the query
+	 * @param translationOption the translation option
+	 * @return the translations
+	 */
+	private QueryTerms getTranslations (List<String> expectedLanguages, QueryTerms query, String translationOption){
+				
+		List<String> translationBasis= new ArrayList<String>();
+		for (int i=0; i<expectedLanguages.size(); i++){
+			if (query.getLangs().contains(expectedLanguages.get(i))){
+				translationBasis.add(query.getTermsOfLang(expectedLanguages.get(i)));
+			}
+			else{
+				translationBasis.add("");
+			}
+		}
+		QueryTerms translatedTerms = new QueryTerms(translationBasis, expectedLanguages);
+		
+		
+		for (int i=0; i<expectedLanguages.size(); i++){
 			for (int j=0; j<query.getLangs().size(); j++){//We are translating j to the language i
-				if (i!=j){
+				if (!query.getLangs().get(j).equals(expectedLanguages.get(i))){
 					String sourceText=query.getTerms().get(j);
 					if (sourceText.length()>1){
 						String sourceLanguage=query.getLangs().get(j);
-						String targetLanguage=query.getLangs().get(i);
+						String targetLanguage=expectedLanguages.get(i);
 						String translation=TranslationHandler.getInstance().translate(translationOption, sourceText, sourceLanguage, targetLanguage);
-						translatedTerms.addQueryTerm(translation, query.getLangs().get(i));
+						translatedTerms.addQueryTerm(translation, expectedLanguages.get(i));
 					}
 				}
 			}
@@ -273,6 +333,14 @@ public class CrossLanguageQueryHandler extends QueryHandler{
 		return translatedTerms;
 	}
 	
+	/**
+	 * Combine results.
+	 *
+	 * @param partialHitsInput the partial hits input
+	 * @param size the size
+	 * @param combiningOption the combining option
+	 * @return the list
+	 */
 	public List<PaperHit> combineResults(ResultsList[] partialHitsInput, int size, Boolean combiningOption){
 		List<PaperHit> combinedResults= new ArrayList<PaperHit>();
 		ResultsList[] partialHits= partialHitsInput;
@@ -281,7 +349,7 @@ public class CrossLanguageQueryHandler extends QueryHandler{
 			for (int i=0; i<partialHits.length; i++){
 				List<PaperHit> hits= partialHits[i].getPaperHits();
 				if (!hits.isEmpty()){
-					if(!hits.get(i).getLang().equals("EN")){
+					if(!hits.get(0).getLang().equals("EN")){
 						for (int k=0; k<hits.size(); k++){
 							float formerValue=hits.get(k).getRelevanceScore();
 							partialHits[i].getPaperHits().get(k).setRelevanceScore(1.5f*formerValue);
@@ -294,7 +362,7 @@ public class CrossLanguageQueryHandler extends QueryHandler{
 			}
 		}
 		for (int i=0; i<size; i++){
-			if (!partialHits[i].isEmptyPaperHits()){
+			if (!partialHits[i].isEmpty()){
 				combinedResults.addAll(partialHits[i].getPaperHits());
 				numberOfHits+=partialHits[i].getPaperHits().get(0).getNumOfResults();
 			}
@@ -311,10 +379,24 @@ public class CrossLanguageQueryHandler extends QueryHandler{
 		}
 		return combinedResults.subList(0, numberOfResults);
 	}
-	public ResultsList runQuery(QueryTerms query, int numExpectedResults, Boolean preProcessingOption, String translationOption, Boolean postProcessingOption, Boolean combiningOption){
+	
+	/**
+	 * Run query.
+	 *
+	 * @param expectedLanguages the expected languages
+	 * @param query the query
+	 * @param numExpectedResults the num expected results
+	 * @param preProcessingOption the pre processing option
+	 * @param translationOption the translation option
+	 * @param postProcessingOption the post processing option
+	 * @param combiningOption the combining option
+	 * @return the results list
+	 */
+	public ResultsList runQuery(List<String> expectedLanguages, QueryTerms query, int numExpectedResults, Boolean preProcessingOption, String translationOption, Boolean postProcessingOption, Boolean combiningOption){
 		ResultsList resultingList= new ResultsList();
 		QueryTerms postProcessedTerms = new QueryTerms();
 		List<PaperHit> results= new ArrayList<PaperHit>();
+		
 		
 		/**This processing is completed in 5 steps:*/
 		
@@ -322,7 +404,7 @@ public class CrossLanguageQueryHandler extends QueryHandler{
 		QueryTerms preProcessedQuery=preProcess(query, preProcessingOption);
 		
 		/**Second step: Translation for each language pair*/
-		QueryTerms translatedQueries=getTranslations(preProcessedQuery, translationOption);
+		QueryTerms translatedQueries=getTranslations(expectedLanguages, preProcessedQuery, translationOption);
 		
 		/**Third step: Post-processing... */
 		QueryTerms postProcessedQueries=postProcess(translatedQueries, postProcessingOption);
@@ -330,7 +412,7 @@ public class CrossLanguageQueryHandler extends QueryHandler{
 		resultingList.setQueryTerms(postProcessedTerms);
 		
 		//User query refinement re-runs the processing from this stage...
-		/**Forth step: Searching in every index*/
+		/**Forth step: Matching or searching in every index*/
 		int numLangs=postProcessedQueries.getLangs().size();
 		ResultsList [] partialHits= new ResultsList[numLangs];
 		for (int i=0; i<numLangs; i++){
@@ -357,6 +439,14 @@ public class CrossLanguageQueryHandler extends QueryHandler{
 		return resultingList;
 	}
 
+	/**
+	 * Refine query.
+	 *
+	 * @param postProcessedQueries the post processed queries
+	 * @param numExpectedResults the num expected results
+	 * @param combiningOption the combining option
+	 * @return the results list
+	 */
 	public ResultsList refineQuery(QueryTerms postProcessedQueries, int numExpectedResults, boolean combiningOption){
 		List<PaperHit> results= new ArrayList<PaperHit>();
 		

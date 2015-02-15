@@ -19,19 +19,33 @@ import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
 import org.docear.pdf.PdfDataExtractor;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class PerLanguageIndexer: A simple Lucene indexing scheme, but tracking clearly the language distinctions. 
+ * Extraction from PDFs is carried out here.
+ * 
+ * @author Gabriel
+ *  
+ */
 public class PerLanguageIndexer extends Indexer {
 
-	/**Singleton instance of type PerLanguageIndexer */
+	/** Singleton instance of type PerLanguageIndexer. */
 	private static PerLanguageIndexer indexer = null;
 	
-	/**Functions */
+	/**
+	 * Functions.
+	 */
 	
 	/**Protected constructor function, to defeat instantiation. */
 	protected PerLanguageIndexer(){
 		 // Exists only to defeat instantiation.
 	}
 	
-	/**getInstance function, for singleton use*/
+	/**
+	 * getInstance function, for singleton use.
+	 *
+	 * @return single instance of PerLanguageIndexer
+	 */
 	public static PerLanguageIndexer getInstance(){
 		if (indexer==null){
 			indexer= new PerLanguageIndexer();
@@ -39,6 +53,13 @@ public class PerLanguageIndexer extends Indexer {
 		return indexer;
 	}
 	
+	/**
+	 * Creates the index.
+	 *
+	 * @param lang the lang
+	 * @param repoLocation the repo location
+	 * @param indexLocation the index location
+	 */
 	public void createIndex(String lang, String repoLocation, String indexLocation){
 		
 		if (VERBOSE){
@@ -210,7 +231,7 @@ public class PerLanguageIndexer extends Indexer {
 							luceneDoc.add(field2);
 							
 							@SuppressWarnings("deprecation")
-							Field field3=new Field ("url", files[i].toString(), Field.Store.YES, Field.Index.NOT_ANALYZED, Field.TermVector.NO);
+							Field field3=new Field ("url", files[i].getAbsolutePath().toString(), Field.Store.YES, Field.Index.NOT_ANALYZED, Field.TermVector.NO);
 							field3.setBoost((float)0.0);
 							luceneDoc.add(field3);
 							

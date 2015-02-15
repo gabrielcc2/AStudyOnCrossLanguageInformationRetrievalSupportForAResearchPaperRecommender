@@ -26,20 +26,44 @@ import clir.model.PaperHit;
 import clir.model.QueryTerms;
 import clir.model.ResultsList;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class PerLanguageQueryHandler: Regular mono-lingual querying. Not implemented as singleton.
+ * 
+ * @author Gabriel
+ */
 public class PerLanguageQueryHandler extends QueryHandler{
 	
+	/** The lang. */
 	private String lang;
 	
+	/**
+	 * Instantiates a new per language query handler.
+	 *
+	 * @param lang the lang
+	 */
 	public PerLanguageQueryHandler(String lang){
 		this.lang=lang;
 		numberOfResults=DEFAULT_NUMBER_OF_RESULTS;
 	}
 	
+	/**
+	 * Instantiates a new per language query handler.
+	 *
+	 * @param lang the lang
+	 * @param numExpectedResults the num expected results
+	 */
 	public PerLanguageQueryHandler(String lang, int numExpectedResults){
 		this.lang=lang;
 		this.numberOfResults=numExpectedResults;
 	}
 
+	/**
+	 * Run query.
+	 *
+	 * @param query the query
+	 * @return the results list
+	 */
 	@SuppressWarnings("deprecation")
 	public ResultsList runQuery(String query){
 		ResultsList resultingList= new ResultsList();

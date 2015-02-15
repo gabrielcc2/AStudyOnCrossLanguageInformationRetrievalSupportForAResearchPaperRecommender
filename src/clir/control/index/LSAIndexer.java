@@ -20,19 +20,48 @@ import org.docear.pdf.PdfDataExtractor;
 import clir.control.mgmt.LanguagesManager;
 import clir.model.IndexedDocLSA;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class LSAIndexer. A singleton. It implements the functionality of Latent Semantic indexing, based on matix decomposition 
+ * over cross-language training data, and folding-in the queries and new documents to this vector-space.
+ *
+ * The class is composed fundamentally by the createIndex function.
+ * 
+ * The currrent approach used controlled vocabulary (no new terms are added). This could be improved in future works.
+ * 
+ * The generated index consists of 5 files:
+ * Terms.txt: a terms list (also postings list), 
+ * Config.txt: Recording number of semantic dimensions and training data used.
+ * d.txt: A representantion of the documents in the semantic space, next to meta-data allowing their identification (title, url, language). 
+ * It goes from documents to semantic dimensions.
+ * u.txt: The u matrix, going from terms to semantic dimensions.
+ * inverseS.txt: The dimxdim inverse S matrix, completing the definition of the decomposition.
+ * 
+ * Apache commons math used here.
+ * 
+ *  Extraction from PDFs is carried out here.
+ * 
+ *  @author Gabriel
+ */
 public class LSAIndexer extends Indexer {
 	
-		/**Singleton instance of type LSAIndexer */
+		/** Singleton instance of type LSAIndexer. */
 		private static LSAIndexer indexer = null;
 	
-		/**Functions */
+		/**
+		 * Functions.
+		 */
 		
 		/**Protected constructor function, to defeat instantiation. */
 		protected LSAIndexer(){
 			 // Exists only to defeat instantiation.
 		}
 		
-		/**getInstance function, for singleton use*/
+		/**
+		 * getInstance function, for singleton use.
+		 *
+		 * @return single instance of LSAIndexer
+		 */
 		public static LSAIndexer getInstance(){
 			if (indexer==null){
 				indexer= new LSAIndexer();
@@ -40,7 +69,8 @@ public class LSAIndexer extends Indexer {
 			return indexer;
 		}
 		
-		/**Function that creates a LSA index over all language repositories.
+		/**
+		 * Function that creates a LSA index over all language repositories.
 		 * 
 		 * In our approach the Vector-Space for the LSA is defined by an user-provided
 		 * cross-language training data, consisting of a data.txt file, with text in each line
@@ -60,10 +90,14 @@ public class LSAIndexer extends Indexer {
 		 *  
 		 * 
 		 * Notes: 
-		 * - Assumes the numDimensions passed is correct for matrix decomposition.
+		 * - Assumes the numDimensions passed is correct for matrix decomposition (lesser than the number od documents).
 		 * - So far must be called only once during the execution of the program.
-		 * 
-		 * */
+		 *
+		 * @param queryLanguages the query languages
+		 * @param trainingData the cross-language training data (a folder to the data in a file of named data.txt)
+		 * @param indexFolder the index folder
+		 * @param numDimensions the number of semantic dimensions
+		 */
 		public void createIndex(List<String> queryLanguages, String trainingData, String indexFolder, int numDimensions){
 		
 			if (VERBOSE){
@@ -71,6 +105,7 @@ public class LSAIndexer extends Indexer {
 				System.out.println("Indexing with LSA:\n*****************************************************************");
 			}
 			
+			/**First we read the training data only to establish the term index*/
 			File td = new File(trainingData+"/data.txt");
 			List<String> terms= new ArrayList<String>();
 			FileInputStream fis;
@@ -122,6 +157,9 @@ public class LSAIndexer extends Indexer {
 				e1.printStackTrace();
 				return;
 			}
+			
+			/**On the second time we read the training data to construct the vector representations of documents*/
+			
 			//Construct BufferedReader from InputStreamReader
 			BufferedReader br2 = new BufferedReader(new InputStreamReader(fis2));
 		 
@@ -320,7 +358,7 @@ public class LSAIndexer extends Indexer {
 
 											IndexedDocLSA doc = new IndexedDocLSA(numDimensions);
 											doc.setTitle(title);
-											doc.setUrl(files[i].toString());
+											doc.setUrl(files[i].getAbsolutePath().toString());
 											doc.setLang(queryLanguages.get(j));
 
 											
@@ -511,7 +549,6 @@ public class LSAIndexer extends Indexer {
 			
 			try {
 				FileWriter oDFile = new FileWriter(newDFile, false);
-				oDFile.write("Num docs:"+indexArray.size()+"\n");
 				for (int n=0; n<indexArray.size(); n++){
 					oDFile.write(indexArray.get(n).getTitle()+"§"+indexArray.get(n).getUrl()+"§"+indexArray.get(n).getLang()+"§");
 					double[] weights =indexArray.get(n).getWeights();
