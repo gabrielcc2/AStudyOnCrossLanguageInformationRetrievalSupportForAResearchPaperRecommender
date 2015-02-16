@@ -134,10 +134,10 @@ For indexing and parsing:
 
 Information on specific versions, authors, etc., can be found in the repository itself.
 
-Issues:
+Known issues:
 ===============
 - Portability needs improvement: Facilitate the server configurations so as to make the system more portable. 
-- Field extraction with PDF Inspector must be improved. Try to correct buggy behaviour. Consider indexing other fields and benefits/shortcomings. Some fields could be citations, keywords, authors, etc.
+- Field extraction with PDF Inspector must be improved. Buggy behaviour has been observed, such as breaking up words when extracting terms in German and Spanish. This must be corrected so we can consider indexing other fields (citations, keywords, authors, etc.) and their benefits/shortcomings.
 - Observed issues while using Apertium (one translation request EN->ES or ES->EN stalls from time to time).
 
 Future work:
@@ -145,6 +145,7 @@ Future work:
 - Extend LSI to accept new terms during indexing. Configure with realistic training data. Evaluate time for querying and improve if needed.
 - Check and upload Moses model support, add this to documentation. Evaluate possibilities for using extended features.
 - Use WordNets from other languages and extend with word-sense predictors. This might lead to more accurate terms. 
+- Consider alternatives for adding lexical/semantic support to query refinement.
 - Test other boost-on-merge options.
 - Consider pre-processing alternatives for each supported language.
 - Comprehensive evaluation under a more realistic configuration + testing scheme.
