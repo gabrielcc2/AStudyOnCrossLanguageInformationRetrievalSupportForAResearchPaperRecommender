@@ -5,7 +5,7 @@ In this repository are some files from a study on how to support cross-language 
 
 We focused on German, English and Spanish.
 
-Unpublished paper available as pdf file in home folder of repository, and as tex file in docs folder.
+Unpublished paper available as pdf file in home folder of repository.
 
 This was a project carried out in the University of Magdeburg Oct 2014-Feb 2015
 
