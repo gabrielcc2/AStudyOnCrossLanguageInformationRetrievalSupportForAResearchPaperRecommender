@@ -28,7 +28,7 @@ public class TranslationHandler {
 	private static String REFERRER="https://github.com/gabrielcc2";
 	
 	/** The google key. */
-	private static String GOOGLE_KEY="_";
+	private static String GOOGLE_KEY="AIzaSyDkCLMZ509XTG1SwdAIJVqdhNbio1SI3uk";
 	
 	/** The verbose. */
 	private Boolean VERBOSE=true;

@@ -1,0 +1,48 @@
+This is BibTeX, Version 0.99d (TeX Live 2013/Debian)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: (Paper) Campero, 2015- Building cross-language recommendations- a case study.aux
+The style file: splncs03.bst
+Database file #1: references.bib
+Warning--empty journal in dumais1997automatic
+You've used 50 entries,
+            2785 wiz_defined-function locations,
+            872 strings with 15961 characters,
+and the built_in function-call counts, 31630 in all, are:
+= -- 2799
+> -- 960
+< -- 54
++ -- 400
+- -- 344
+* -- 1948
+:= -- 4000
+add.period$ -- 112
+call.type$ -- 50
+change.case$ -- 395
+chr.to.int$ -- 0
+cite$ -- 51
+duplicate$ -- 2725
+empty$ -- 2803
+format.name$ -- 391
+if$ -- 7061
+int.to.chr$ -- 0
+int.to.str$ -- 50
+missing$ -- 533
+newline$ -- 155
+num.names$ -- 100
+pop$ -- 1015
+preamble$ -- 1
+purify$ -- 271
+quote$ -- 0
+skip$ -- 910
+stack$ -- 0
+substring$ -- 1884
+swap$ -- 1497
+text.length$ -- 54
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 200
+warning$ -- 1
+while$ -- 278
+width$ -- 52
+write$ -- 536
+(There was 1 warning)
