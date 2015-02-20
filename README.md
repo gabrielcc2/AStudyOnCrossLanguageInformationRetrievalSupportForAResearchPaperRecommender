@@ -5,6 +5,8 @@ In this repository are some files from a study on how to support cross-language 
 
 We focused on German, English and Spanish.
 
+Unpublished paper available as pdf file in home folder of repository, and as tex file in docs folder.
+
 This was a project carried out in the University of Magdeburg Oct 2014-Feb 2015
 
 Apart from surveying some available alternatives for implementing cross-language information retrieval, the aim of this project was to allow the comparison of different approaches to the cross-language support:
