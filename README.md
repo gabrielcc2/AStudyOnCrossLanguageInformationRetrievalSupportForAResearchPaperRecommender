@@ -144,7 +144,7 @@ Known issues:
 
 Future work:
 ===============
-- Extend LSI to accept new terms during indexing. Configure with realistic training data/parallel corpus. Evaluate time for querying and improve if needed. So as to limit dictionary growth, feature selection could be done in the stage preceding semantic reduction, so as to speed the resulting matrix calculations for indexing and querying.
+- Extend LSI to accept new terms during indexing. Configure with realistic training data/parallel corpus. For this some pre-processing per language has to be added. So as to limit dictionary growth, feature selection could be done in the stage preceding semantic reduction, so as to speed the resulting matrix calculations for indexing and querying (this would be a variation from regular feature selection, for we have to keep the approximately paired relation between features in each language). Evaluate time for querying and improve if needed, by using better matrix algorithms.  
 - Check and upload Moses model support, add this to documentation. Evaluate possibilities for using extended features.
 - Use WordNets from the other languages and extend with word-sense disambiguation and NER. This might lead to more accurate terms. Perhaps migrate to EuroWordNet. Study adequateness of current POS given that we have incomplete sentences.
 - Consider alternatives for adding lexical/semantic support for users during query refinement.
