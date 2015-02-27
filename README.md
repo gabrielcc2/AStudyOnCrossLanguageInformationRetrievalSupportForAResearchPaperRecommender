@@ -144,8 +144,8 @@ Known issues:
 
 Future work:
 ===============
-- Extend LSI to accept new terms during indexing. Configure with realistic training data/parallel corpus. For this some pre-processing per language has to be added. So as to limit dictionary growth, feature selection could be done in the stage preceding semantic reduction, so as to speed the resulting matrix calculations for indexing and querying (this would be a variation from regular feature selection, for we have to keep the approximately paired relation between features in each language). Evaluate time for querying and improve if needed, by using better matrix algorithms.  
-- Check and upload Moses model support, add this to documentation. Evaluate possibilities for using extended features.
+- Extend LSI to accept new terms during indexing. Configure with realistic training data/parallel or comparable corpus available on the Web. Study benefits of alternative corpora. For this some pre-processing per language has to be added. So as to limit dictionary growth, feature selection could be done in the stage preceding semantic reduction, so as to speed the resulting matrix calculations for indexing and querying (this would be a variation from regular feature selection, for we have to keep the approximately paired relation between features in each language). Evaluate time for querying and improve if needed, by using better matrix algorithms.  
+- Check and upload Moses model support, add this to documentation. Evaluate possibilities for using extended features. Once more, study the potentials of alternative comparable corpora which could be mined from the web.
 - Use WordNets from the other languages and extend with word-sense disambiguation and NER. This might lead to more accurate terms. Perhaps migrate to EuroWordNet. Study adequateness of current POS given that we have incomplete sentences.
 - Consider alternatives for adding lexical/semantic support for users during query refinement.
 - Test other boost-on-merge options.
@@ -159,7 +159,7 @@ Future work:
 		- A less embedded approach would be to provide the translation services with a larger body of text and then extract only the parts that are required. 
 		- Also with Moses a bag-of-words approach could be used for it to return potential, instead of exact, translations. Each of these words can be assigned an associated weight, which serves to signal the most likely translation to the document retriever or the indexer. The weights can be further tuned with a knowledge or corpus-based approach. 
 		- Inter-lingual nets coupled with good word-sense predictors, could be considered as a form of dictionary tranlation.
-- Embedding the cross-language aspects into the inner workings of recommender systems. For this our query definition has to be extended so it includes any additional data that the recommender system might use needing translation. The matching itself can be performed in any way the recommender system does, and finally the merging can be adapted to suit the existing system. Of particular interest would be supporting translation of citation-related information (such as citation context), for this might enable the research paper recommender system to produce better cross-language recommendations, by having a multi-language characterization of how a paper is cited. This could be a fruitful area of research. 
+- Embedding the cross-language aspects into the inner workings of recommender systems. For this our query definition has to be extended so it includes any additional data that the recommender system might use needing translation. The matching itself can be performed in any way the recommender system does, and finally the merging can be adapted to suit the existing system. Of particular interest would be supporting translation of citation-related information (such as citation context), for this might enable the research paper recommender system to produce better cross-language recommendations, by having a multi-language characterization of how a paper is cited. This could be a fruitful area of research. Also, supporting other characteristics of the recommender, for example, recommendations of sequences of papers.
 
 -Considerations of relevance feedback could be added.
 
@@ -168,5 +168,7 @@ Future work:
 -Other indexer systems might provide benefits instead of Lucene: Wumpus, Indri (packed with Lemur project, for parsing pdfs)...
 
 -Extensions to other languages + devising a clean process for incorporating these sort of extensions.
+
+-Future studies on potential benefits of using semantic net-based similarity measures for cross-lingual queries might be of interest, since it's not a much researched topic.
 
 - Finally, with a basis on our work and the large amount of technologies available, aditional cross-language services could be further built for users, such as cross-languge query suggestions,  providing multi-lingual explanations for the cross-language recommendations, etc.
